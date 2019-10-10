@@ -1,9 +1,8 @@
 @page "/devices"
 
-@using HomematicCore.Homematic.Daemon
-@using HomematicCore.Homematic.Daemon.Domain
+@using HomematicCore.Manager.Web.ViewModels;
 
-@inject IHomematicDaemon HomematicDaemon
+@inject DevicesViewModel _dataContext
 
 <h1> Devices </h1>
 
@@ -17,14 +16,14 @@
     </thead>
     <tbody>
         
-        @foreach (var device in LoadedDevices)
+        @foreach (var device in _dataContext.LoadedDevices)
         {
-            <tr @onclick="_ => ToogleDetails(device.Address)">
+            <tr @onclick="_ => _dataContext.ToogleDetails(device.Address)">
                 <td>@device.Address</td>
                 <td>@device.Type</td>
                 <td>@device.InstalledFirmware @if (!device.IsUpdateAvailable) { <span class="badge badge-success">Up to date</span> } </td>
             </tr>
-            <tr class="@(AreDetailsOpen(device.Address) ? "d-table-row" : "d-none")">
+            <tr class="@(_dataContext.AreDetailsOpen(device.Address) ? "d-table-row" : "d-none")">
                 <td>Child</td>
                 <td>-</td>
                 <td>-</td>
@@ -35,23 +34,5 @@
 
 @code {
 
-    private Dictionary<string, bool> _areDetailsOpenByDeviceAddress = new Dictionary<string, bool>();
-    public IEnumerable<Device> LoadedDevices { get; set; }
-
-    protected override Task OnInitializedAsync()
-    {
-        LoadedDevices = HomematicDaemon.GetDevices();
-        
-        return Task.CompletedTask;
-    }
-
-    public void ToogleDetails(string deviceAddress)
-    {
-        this._areDetailsOpenByDeviceAddress[deviceAddress] = !AreDetailsOpen(deviceAddress);
-    }
-
-    public bool AreDetailsOpen(string deviceAddress)
-    {
-        return _areDetailsOpenByDeviceAddress.GetValueOrDefault(deviceAddress);
-    }
+    protected override Task OnInitializedAsync() => _dataContext.InitializeAsync();
 }

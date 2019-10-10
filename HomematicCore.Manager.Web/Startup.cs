@@ -9,6 +9,7 @@ using HomematicCore.Homematic.Daemon.Constants;
 using AutoMapper;
 using HomematicCore.Homematic.Daemon.Profiles;
 using System;
+using HomematicCore.Manager.Web.ViewModels;
 
 namespace HomematicCore.Manager.Web
 {
@@ -32,6 +33,9 @@ namespace HomematicCore.Manager.Web
             services.AddSingleton<IHomematicClientFactory>(_ => HomematicClientFactory.Default);
             services.AddTransient<IHomematicDaemon, HomematicDaemon>();
             services.AddAutoMapper(cfg => cfg.AddProfile<EntityDomainProfile>(), new Type[0]);
+
+            // Register view models (Todo: Find a way to automatize this)
+            services.AddTransient<DevicesViewModel>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
