@@ -1,0 +1,57 @@
+@page "/devices"
+
+@using HomematicCore.Homematic.Client
+@using HomematicCore.Homematic.Client.Entities
+
+@inject IHomematicClient HomematicClient
+
+<h1> Devices </h1>
+
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>Address</th>
+            <th>Type</th>
+            <th>InstalledFirmware</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        @foreach (var device in LoadedDevices)
+        {
+            <tr @onclick="_ => ToogleDetails(device.Address)">
+                <td>@device.Address</td>
+                <td>@device.Type</td>
+                <td>@device.InstalledFirmware <span class="badge badge-success">Up to date</span></td>
+            </tr>
+            <tr class="@(AreDetailsOpen(device.Address) ? "d-table-row" : "d-none")">
+                <td>Child</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+
+    private Dictionary<string, bool> _areDetailsOpenByDeviceAddress = new Dictionary<string, bool>();
+    public IEnumerable<DeviceDescription> LoadedDevices { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        LoadedDevices = HomematicClient.ListDevices().Where(d => string.IsNullOrEmpty(d.ParentAddress));
+        
+        return Task.CompletedTask;
+    }
+
+    public void ToogleDetails(string deviceAddress)
+    {
+        this._areDetailsOpenByDeviceAddress[deviceAddress] = !AreDetailsOpen(deviceAddress);
+    }
+
+    public bool AreDetailsOpen(string deviceAddress)
+    {
+        return _areDetailsOpenByDeviceAddress.GetValueOrDefault(deviceAddress);
+    }
+}
