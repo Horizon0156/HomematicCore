@@ -3,8 +3,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using HomematicCore.Homematic.Client;
 using HomematicCore.Homematic.Client.Factories;
+using HomematicCore.Homematic.Daemon;
+using HomematicCore.Homematic.Daemon.Constants;
+using AutoMapper;
+using HomematicCore.Homematic.Daemon.Profiles;
+using System;
 
 namespace HomematicCore.Manager.Web
 {
@@ -23,7 +27,11 @@ namespace HomematicCore.Manager.Web
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<IHomematicClient>(_ => HomematicClientFactory.Default.CreateHomematicClient("black-pearl", 2010));
+
+            services.AddSingleton(new DaemonConfiguration("black-pearl", CommonPorts.HomematicIp));
+            services.AddSingleton<IHomematicClientFactory>(_ => HomematicClientFactory.Default);
+            services.AddTransient<IHomematicDaemon, HomematicDaemon>();
+            services.AddAutoMapper(cfg => cfg.AddProfile<EntityDomainProfile>(), new Type[0]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

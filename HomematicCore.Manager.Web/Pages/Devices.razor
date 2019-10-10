@@ -1,9 +1,9 @@
 @page "/devices"
 
-@using HomematicCore.Homematic.Client
-@using HomematicCore.Homematic.Client.Entities
+@using HomematicCore.Homematic.Daemon
+@using HomematicCore.Homematic.Daemon.Domain
 
-@inject IHomematicClient HomematicClient
+@inject IHomematicDaemon HomematicDaemon
 
 <h1> Devices </h1>
 
@@ -22,7 +22,7 @@
             <tr @onclick="_ => ToogleDetails(device.Address)">
                 <td>@device.Address</td>
                 <td>@device.Type</td>
-                <td>@device.InstalledFirmware <span class="badge badge-success">Up to date</span></td>
+                <td>@device.InstalledFirmware @if (!device.IsUpdateAvailable) { <span class="badge badge-success">Up to date</span> } </td>
             </tr>
             <tr class="@(AreDetailsOpen(device.Address) ? "d-table-row" : "d-none")">
                 <td>Child</td>
@@ -36,11 +36,11 @@
 @code {
 
     private Dictionary<string, bool> _areDetailsOpenByDeviceAddress = new Dictionary<string, bool>();
-    public IEnumerable<DeviceDescription> LoadedDevices { get; set; }
+    public IEnumerable<Device> LoadedDevices { get; set; }
 
     protected override Task OnInitializedAsync()
     {
-        LoadedDevices = HomematicClient.ListDevices().Where(d => string.IsNullOrEmpty(d.ParentAddress));
+        LoadedDevices = HomematicDaemon.GetDevices();
         
         return Task.CompletedTask;
     }
