@@ -31,5 +31,10 @@ namespace HomematicCore.Homematic.Daemon.Domain
         ///     on this device
         /// </summary>
         public string[] ParameterSetNames { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the direction of this channel
+        /// </summary>
+        public ChannelDirection Direction { get; set; }
     }
 }

@@ -76,6 +76,14 @@ namespace HomematicCore.Homematic.Client.Entities
         [XmlRpcMember("AVAILABLE_FIRMWARE")]
         public string AvailableFirmware { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the direction of the device channel.
+        ///     0 = None, 1 = Sender, 2 = Receiver
+        /// </summary>
+        /// <remark> Only for channels </remark>
+        [XmlRpcMember("DIRECTION")]
+        public int Direction { get; set; }
+
         // Todo: Add other parameters
     }
 }
