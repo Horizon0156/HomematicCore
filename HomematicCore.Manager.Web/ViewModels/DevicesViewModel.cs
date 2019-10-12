@@ -8,6 +8,7 @@ namespace HomematicCore.Manager.Web.ViewModels
     public class DevicesViewModel
     {
         private Dictionary<string, bool> _areDetailsOpenByDeviceAddress = new Dictionary<string, bool>();
+       
         private readonly IHomematicDaemon _homematicDaemon;
 
         public DevicesViewModel(IHomematicDaemon homematicDaemon)
@@ -24,14 +25,14 @@ namespace HomematicCore.Manager.Web.ViewModels
             return Task.CompletedTask;
         }
 
-        public void ToogleDetails(string deviceAddress)
+        public void ToogleDetails(Device device)
         {
-            this._areDetailsOpenByDeviceAddress[deviceAddress] = !AreDetailsOpen(deviceAddress);
+            this._areDetailsOpenByDeviceAddress[device.Address] = !AreDetailsOpen(device);
         }
 
-        public bool AreDetailsOpen(string deviceAddress)
+        public bool AreDetailsOpen(Device device)
         {
-            return _areDetailsOpenByDeviceAddress.GetValueOrDefault(deviceAddress);
+            return _areDetailsOpenByDeviceAddress.GetValueOrDefault(device.Address);
         }
     }
 }
