@@ -1,29 +1,27 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">
-        <img class="w-100" src="logo.png">
-    </a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div>
+﻿<nav>
+    <div class="nav-wrapper">
+        
+        <a href="#" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <a href="#" class="brand-logo">
+            <img class="responsive-img" src="logo_white.png">
+        </a>
+        <ul class="right hide-on-med-and-down">
+            <li><NavLink class="nav-link" href="/devices"> Devices </NavLink></li>
+            <li><a href="/">Links</a></li>
+            <li><a href="/">Radio</a></li>
+            <li><a href="/">Servicemessages</a></li>
+        </ul>
+    </div>
+</nav>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="/devices">
-                <span class="oi oi-hard-drive" aria-hidden="true"></span> Devices
-            </NavLink>
-        </li>
-    </ul>
-</div>
+<ul class="sidenav" >
+    <li><NavLink class="nav-link" href="/devices"> Devices </NavLink></li>
+    <li><a href="/">Links</a></li>
+    <li><a href="/">Radio</a></li>
+    <li><a href="/">Servicemessages</a></li>
+</ul>
 
 @code {
-    bool collapseNavMenu = true;
 
-    string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
+    // Todo: Port Materialze's sidenav logic
 }

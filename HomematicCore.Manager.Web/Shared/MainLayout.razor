@@ -1,15 +1,11 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="sidebar">
-    <NavMenu />
-</div>
+<NavMenu />
 
-<div class="main">
-    <div class="top-row px-4">
-        
-    </div>
-
-    <div class="content px-4">
-        @Body
+<div class="container-full">
+    <div class="row">
+        <div class="col s12">
+            @Body
+        </div>
     </div>
 </div>

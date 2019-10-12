@@ -4,58 +4,75 @@
 
 @inject DevicesViewModel _dataContext
 
-<h1> Devices </h1>
+<h4> Devices </h4>
 
-<table class="table table-sm">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Address</th>
-            <th>Type</th>
-            <th>InstalledFirmware</th>
-        </tr>
-    </thead>
-    <tbody>
-        
-        @foreach (var device in _dataContext.LoadedDevices)
-        {
-            <tr @onclick="_ => _dataContext.ToogleDetails(device)">
-                <td>+</td>
-                <td>@device.Address</td>
-                <td>@device.Type</td>
-                <td>@device.InstalledFirmware @if (!device.IsUpdateAvailable) { <span class="badge badge-success">Up to date</span> } </td>
+<div class="card-panel dp-1">
+    <table class="small responsive-table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Address</th>
+                <th>Type</th>
+                <th>InstalledFirmware</th>
+                <th># Channels</th>
+                <th>Parametersets</th>
             </tr>
-            @if (_dataContext.AreDetailsOpen(device))
+        </thead>
+        <tbody>
+            
+            @foreach (var device in _dataContext.LoadedDevices)
             {
-                <tr>
-                    <td></td>
-                    <td colspan="3">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Address</th>
-                                    <th>Type</th>
-                                    <th>Direction</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var channel in device.Channels)
-                                {
-                                    <tr>
-                                        <td>@channel.Address</td>
-                                        <td>@channel.Type</td>
-                                        <td>@channel.Direction</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                <tr @onclick="_ => _dataContext.ToogleDetails(device)">
+                    <td><i class="material-icons">add</i></td>
+                    <td>@device.Address</td>
+                    <td>@device.Type</td>
+                    <td>@device.InstalledFirmware @if (!device.IsUpdateAvailable) { <span class="badge badge-success">Up to date</span> } </td>
+                    <td>@device.Channels.Count </td>
+                    <td>
+                        @foreach (var set in device.ParameterSetNames)
+                        {
+                            <span class="badge solid">@set</span>
+                        }
                     </td>
                 </tr>
-                
+                @if (_dataContext.AreDetailsOpen(device))
+                {
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <table class="small">
+                                <thead>
+                                    <tr>
+                                        <th>Address</th>
+                                        <th>Type</th>
+                                        <th>Direction</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var channel in device.Channels)
+                                    {
+                                        <tr>
+                                            <td>@channel.Address</td>
+                                            <td>@channel.Type</td>
+                                            <td>@channel.Direction</td>
+                                            <td>
+                                                @foreach (var set in channel.ParameterSetNames)
+                                                {
+                                                    <span class="badge solid">@set</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 
 @code {
 
