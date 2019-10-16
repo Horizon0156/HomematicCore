@@ -1,11 +1,20 @@
 
+using System.Linq;
+
 namespace HomematicCore.Homematic.Daemon.Domain
 {
     /// <summary>
     ///     Domain object for a Homematic device.
     /// </summary>
-    public class Channel
+    public class Channel : EntityWithParameters
     {
+        /// <summary>
+        ///     Creates a new instance of a channel.
+        /// </summary>
+        public Channel() : base("MASTER", "VALUES")
+        {
+        }
+
         /// <summary>
         ///     Gets or sets the type of the channel.
         /// </summary>
@@ -25,12 +34,6 @@ namespace HomematicCore.Homematic.Daemon.Domain
         ///     Gets or sets the index of this channel.
         /// </summary>
         public int Index { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the names of available parameter sets 
-        ///     on this device
-        /// </summary>
-        public string[] ParameterSetNames { get; set; }
 
         /// <summary>
         ///     Gets or sets the direction of this channel

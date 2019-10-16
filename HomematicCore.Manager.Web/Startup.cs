@@ -28,6 +28,7 @@ namespace HomematicCore.Manager.Web
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddMemoryCache();
 
             services.AddSingleton(new DaemonConfiguration("black-pearl", CommonPorts.HomematicIp));
             services.AddSingleton<IHomematicClientFactory>(_ => HomematicClientFactory.Default);
@@ -36,6 +37,7 @@ namespace HomematicCore.Manager.Web
 
             // Register view models (Todo: Find a way to automatize this)
             services.AddTransient<DevicesViewModel>();
+            services.AddTransient<ChannelsViewModel>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

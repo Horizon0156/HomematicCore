@@ -16,11 +16,13 @@ namespace HomematicCore.Homematic.Daemon.Profiles
             CreateMap<DeviceDescription, Device>()
                 .ForMember(d => d.ParameterSetNames, cfg => cfg.MapFrom(d => d.ParameterSets))
                 .ForMember(d => d.IsUpdateAvailable, cfg => cfg.Ignore())
-                .ForMember(d => d.Channels, cfg => cfg.Ignore());
+                .ForMember(d => d.Channels, cfg => cfg.Ignore())
+                .ForMember(d => d.CommonParameterSetNames, cfg => cfg.Ignore());
 
             CreateMap<DeviceDescription, Channel>()
                 .ForMember(c => c.ParameterSetNames, cfg => cfg.MapFrom(c => c.ParameterSets))
-                .ForMember(c => c.Device, cfg => cfg.Ignore());
+                .ForMember(c => c.Device, cfg => cfg.Ignore())
+                .ForMember(d => d.CommonParameterSetNames, cfg => cfg.Ignore());
         }
     }
 }

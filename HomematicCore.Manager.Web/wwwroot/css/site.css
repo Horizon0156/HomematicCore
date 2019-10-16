@@ -33,6 +33,10 @@ nav ul a:hover {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
+table.highlight>tbody>tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
 .card .card-action {
 
     border-top: none;
@@ -66,6 +70,19 @@ nav ul a:hover {
     font-weight: 300;
     font-size: 0.8rem;
     border-radius: 2px;
+}
+
+table.selectable {
+
+    cursor: pointer;
+}
+
+.btn.page-floating {
+
+    position: absolute;
+    z-index: 1000;
+    right: 10px;
+    bottom: 10px;;
 }
 
 /* .waves-primary {

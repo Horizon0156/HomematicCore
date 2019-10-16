@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using HomematicCore.Homematic.Client;
 using HomematicCore.Homematic.Client.Factories;
 using HomematicCore.Homematic.Daemon.Domain;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace HomematicCore.Homematic.Daemon
 {
@@ -14,27 +16,53 @@ namespace HomematicCore.Homematic.Daemon
     public class HomematicDaemon : IHomematicDaemon
     {
         private readonly IHomematicClient _homematicClient;
+
+        private readonly IMemoryCache _cache;
+
         private readonly IMapper _mapper;
+
+        private readonly int _cacheId;
 
         /// <summary>
         ///     Creates a new instance of the Homematic daemon.
         /// </summary>
         /// <param name="clientFactory"> An instance of a Homematic client factory. </param>
         /// <param name="mapper"> An instance of a configured mapper. </param>
+        /// <param name="cache"> An instance of a memory cache. </param>
         /// <param name="configuration"> The configuration of this daemon. </param>
         public HomematicDaemon(
             IHomematicClientFactory clientFactory, 
             IMapper mapper,
+            IMemoryCache cache,
             DaemonConfiguration configuration)
         {
+            _cacheId = $"{configuration.EndpointAddress}{configuration.Port}".GetHashCode();
             _homematicClient = clientFactory.CreateHomematicClient(
                 configuration.EndpointAddress, 
                 configuration.Port);
+            
             _mapper = mapper;
+            _cache = cache;
+        }
+
+        public Device GetDevice(string address, bool forceReload)
+        {
+            return GetDevices(forceReload).FirstOrDefault(d => d.Address == address);
         }
 
         /// <inheritdoc />
-        public IEnumerable<Device> GetDevices()
+        public IEnumerable<Device> GetDevices(bool forceReload)
+        {
+            if (forceReload || !_cache.TryGetValue<IEnumerable<Device>>(_cacheId, out var cachedDevices)) {
+
+                cachedDevices = GetDevicesFromDaemon();
+                _cache.Set(_cacheId, cachedDevices, new TimeSpan(0, 10, 0));
+            }
+
+            return cachedDevices;
+        }
+
+        private IEnumerable<Device> GetDevicesFromDaemon() 
         {
             var deviceDescriptions = this._homematicClient.ListDevices();
             var convertedDevices = new Dictionary<string, Device>();

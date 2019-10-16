@@ -1,16 +1,17 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HomematicCore.Homematic.Daemon.Domain
 {
     /// <summary>
     ///     Domain object for a Homematic device.
     /// </summary>
-    public class Device
+    public class Device : EntityWithParameters
     {
         /// <summary>
         ///     Creates an empty device.
         /// </summary>
-        public Device()
+        public Device() : base("MASTER", "SERVICE")
         {
             Channels = new List<Channel>();
         }
@@ -29,12 +30,6 @@ namespace HomematicCore.Homematic.Daemon.Domain
         ///     Gets or sets the channel of this device.
         /// </summary>
         public List<Channel> Channels { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the names of available parameter sets 
-        ///     on this device
-        /// </summary>
-        public string[] ParameterSetNames { get; set; }
         
         /// <summary>
         ///     Gets or sets the version of the installed firmware.

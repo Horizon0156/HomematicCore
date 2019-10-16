@@ -2,17 +2,21 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using HomematicCore.Homematic.Daemon;
 using HomematicCore.Homematic.Daemon.Domain;
+using Microsoft.AspNetCore.Components;
 
 namespace HomematicCore.Manager.Web.ViewModels
 {
     public class DevicesViewModel
     {
         private Dictionary<string, bool> _areDetailsOpenByDeviceAddress = new Dictionary<string, bool>();
-       
+
         private readonly IHomematicDaemon _homematicDaemon;
 
-        public DevicesViewModel(IHomematicDaemon homematicDaemon)
+        private readonly NavigationManager _navigationManager;
+
+        public DevicesViewModel(IHomematicDaemon homematicDaemon, NavigationManager navigationManager)
         {
+            _navigationManager = navigationManager;
             _homematicDaemon = homematicDaemon;
         }
 
@@ -21,18 +25,13 @@ namespace HomematicCore.Manager.Web.ViewModels
         public Task InitializeAsync()
         {
             LoadedDevices = _homematicDaemon.GetDevices();
-            
+
             return Task.CompletedTask;
         }
 
-        public void ToogleDetails(Device device)
+        public void OpenChannels(Device device)
         {
-            this._areDetailsOpenByDeviceAddress[device.Address] = !AreDetailsOpen(device);
-        }
-
-        public bool AreDetailsOpen(Device device)
-        {
-            return _areDetailsOpenByDeviceAddress.GetValueOrDefault(device.Address);
+            this._navigationManager.NavigateTo($"devices/{device.Address}/channels");
         }
     }
 }

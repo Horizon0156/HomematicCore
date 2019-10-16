@@ -7,10 +7,9 @@
 <h4> Devices </h4>
 
 <div class="card-panel dp-1">
-    <table class="small responsive-table">
+    <table class="small responsive-table highlight selectable">
         <thead>
             <tr>
-                <th></th>
                 <th>Address</th>
                 <th>Type</th>
                 <th>InstalledFirmware</th>
@@ -22,57 +21,24 @@
             
             @foreach (var device in _dataContext.LoadedDevices)
             {
-                <tr @onclick="_ => _dataContext.ToogleDetails(device)">
-                    <td><i class="material-icons">add</i></td>
+                <tr @onclick="_ => _dataContext.OpenChannels(device)">
                     <td>@device.Address</td>
                     <td>@device.Type</td>
                     <td>@device.InstalledFirmware @if (!device.IsUpdateAvailable) { <span class="badge badge-success">Up to date</span> } </td>
                     <td>@device.Channels.Count </td>
                     <td>
-                        @foreach (var set in device.ParameterSetNames)
+                        @foreach (var set in device.CommonParameterSetNames)
                         {
                             <span class="badge solid">@set</span>
                         }
                     </td>
                 </tr>
-                @if (_dataContext.AreDetailsOpen(device))
-                {
-                    <tr>
-                        <td></td>
-                        <td colspan="3">
-                            <table class="small">
-                                <thead>
-                                    <tr>
-                                        <th>Address</th>
-                                        <th>Type</th>
-                                        <th>Direction</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var channel in device.Channels)
-                                    {
-                                        <tr>
-                                            <td>@channel.Address</td>
-                                            <td>@channel.Type</td>
-                                            <td>@channel.Direction</td>
-                                            <td>
-                                                @foreach (var set in channel.ParameterSetNames)
-                                                {
-                                                    <span class="badge solid">@set</span>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                    
-                }
             }
         </tbody>
     </table>
 </div>
+
+<a class="btn btn-floating btn-large page-floating"><i class="material-icons">add</i></a>
 
 @code {
 
