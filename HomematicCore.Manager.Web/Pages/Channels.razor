@@ -4,7 +4,10 @@
 
 @inject ChannelsViewModel _dataContext
 
-<h4> Devices / @DeviceAddress / Channels </h4>
+<div class="page-header">
+    <NavLink href="/devices" class="breadcrumb"> Devices </NavLink>
+    <span class="breadcrumb"> @DeviceAddress </span>
+</div>
 
 <div class="card-panel dp-1">
     <table class="small responsive-table">
@@ -26,7 +29,7 @@
                     <td>
                         @foreach (var set in channel.CommonParameterSetNames)
                         {
-                            <span class="badge solid">@set</span>
+                            <span class="badge solid selectable" @onclick="_ => _dataContext.LoadParameterSet(channel, set)">@set</span>
                         }
                     </td>
                 </tr>

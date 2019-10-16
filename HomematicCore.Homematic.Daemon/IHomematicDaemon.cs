@@ -28,5 +28,10 @@ namespace HomematicCore.Homematic.Daemon
         /// </param> 
         /// <returns> Devices if found, otherwise <c>null</c>. </returns>
         Device GetDevice(string address, bool forceReload = false);
+
+
+        ParameterSetDescription GetParameterSetDescription(string address, string parameterSetName);
+
+        ParameterSet GetParameterSet(string address, string parameterSetName);
     }
 }

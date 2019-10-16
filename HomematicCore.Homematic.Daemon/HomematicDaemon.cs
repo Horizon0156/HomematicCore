@@ -45,6 +45,7 @@ namespace HomematicCore.Homematic.Daemon
             _cache = cache;
         }
 
+        /// <inheritdoc />
         public Device GetDevice(string address, bool forceReload)
         {
             return GetDevices(forceReload).FirstOrDefault(d => d.Address == address);
@@ -62,9 +63,25 @@ namespace HomematicCore.Homematic.Daemon
             return cachedDevices;
         }
 
+        /// <inheritdoc />
+        public ParameterSetDescription GetParameterSetDescription(string address, string parameterSetName)
+        {
+            var result = _homematicClient.GetParamsetDescription(address, parameterSetName);
+
+            return _mapper.Map<ParameterSetDescription>(result);
+        }
+
+        /// <inheritdoc />
+        public ParameterSet GetParameterSet(string address, string parameterSetName)
+        {
+            var result = _homematicClient.GetParamset(address, parameterSetName);
+
+            return _mapper.Map<ParameterSet>(result);
+        }
+
         private IEnumerable<Device> GetDevicesFromDaemon() 
         {
-            var deviceDescriptions = this._homematicClient.ListDevices();
+            var deviceDescriptions = _homematicClient.ListDevices();
             var convertedDevices = new Dictionary<string, Device>();
 
             foreach (var deviceDescription in deviceDescriptions) 

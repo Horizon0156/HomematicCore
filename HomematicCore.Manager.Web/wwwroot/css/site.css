@@ -72,7 +72,7 @@ table.highlight>tbody>tr:hover {
     border-radius: 2px;
 }
 
-table.selectable {
+.selectable {
 
     cursor: pointer;
 }
@@ -83,6 +83,18 @@ table.selectable {
     z-index: 1000;
     right: 10px;
     bottom: 10px;;
+}
+
+.page-header 
+{
+    display: flex;
+    margin-top: 15px;
+}
+
+.page-header .breadcrumb,
+.breadcrumb:before {
+
+    font-size: 1.5rem;
 }
 
 /* .waves-primary {

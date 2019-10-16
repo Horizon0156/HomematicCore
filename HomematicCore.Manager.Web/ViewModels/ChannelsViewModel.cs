@@ -27,6 +27,12 @@ namespace HomematicCore.Manager.Web.ViewModels
             _homematicDaemon = homematicDaemon;
         }
 
+        public void LoadParameterSet(Channel channel, string parameterSetName)
+        {
+            var desc = _homematicDaemon.GetParameterSetDescription(channel.Address, parameterSetName);
+            var val = _homematicDaemon.GetParameterSet(channel.Address, parameterSetName);
+        }
+
         private void OnParentAddressChanged()
         {
             AvailableChannels = _homematicDaemon.GetDevice(ParentAddress)?.Channels;
