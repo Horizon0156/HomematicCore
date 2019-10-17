@@ -1,6 +1,7 @@
 @page "/devices/{DeviceAddress}/channels"
 
 @using HomematicCore.Manager.Web.ViewModels;
+@using HomematicCore.Manager.Web.Dialogs;
 
 @inject ChannelsViewModel _dataContext
 
@@ -29,7 +30,7 @@
                     <td>
                         @foreach (var set in channel.CommonParameterSetNames)
                         {
-                            <span class="badge solid selectable" @onclick="_ => _dataContext.LoadParameterSet(channel, set)">@set</span>
+                            <span class="badge solid selectable" @onclick="_ => _dataContext.ShowParameterSet(channel, set)">@set</span>
                         }
                     </td>
                 </tr>
@@ -38,8 +39,10 @@
     </table>
 </div>
 
-@code {
+<ParameterDialog ViewModel="_dataContext.ParameterDialogViewModel" />
 
+@code 
+{
     [Parameter]
     public string DeviceAddress { get; set; }
 

@@ -17,20 +17,22 @@ namespace HomematicCore.Manager.Web.ViewModels
                 OnParentAddressChanged();
             }
         }
+
+        public ParameterDialogViewModel ParameterDialogViewModel { get; }
+
         public IEnumerable<Channel> AvailableChannels { get; set; }
         
         private readonly IHomematicDaemon _homematicDaemon;
 
-
-        public ChannelsViewModel(IHomematicDaemon homematicDaemon)
+        public ChannelsViewModel(IHomematicDaemon homematicDaemon, ParameterDialogViewModel parameterDialogViewModel)
         {
             _homematicDaemon = homematicDaemon;
+            ParameterDialogViewModel = parameterDialogViewModel;
         }
 
-        public void LoadParameterSet(Channel channel, string parameterSetName)
+        public void ShowParameterSet(Channel channel, string parameterSetName)
         {
-            var desc = _homematicDaemon.GetParameterSetDescription(channel.Address, parameterSetName);
-            var val = _homematicDaemon.GetParameterSet(channel.Address, parameterSetName);
+            ParameterDialogViewModel.OpenParameterDialog(channel.Address, parameterSetName);
         }
 
         private void OnParentAddressChanged()

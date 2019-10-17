@@ -8,8 +8,6 @@ namespace HomematicCore.Manager.Web.ViewModels
 {
     public class DevicesViewModel
     {
-        private Dictionary<string, bool> _areDetailsOpenByDeviceAddress = new Dictionary<string, bool>();
-
         private readonly IHomematicDaemon _homematicDaemon;
 
         private readonly NavigationManager _navigationManager;

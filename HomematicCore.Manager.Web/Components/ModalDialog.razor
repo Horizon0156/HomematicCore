@@ -1,0 +1,36 @@
+
+@if (IsDialogVisible == true)
+{
+    <div class="modal blazor">
+        <div class="modal-content">
+            @ModalContent
+        </div>
+        <div class="modal-footer">
+            @ModalFooter
+        </div>
+    </div>
+    <div class="modal-backdrop"></div>
+}
+
+@code 
+{
+    [Parameter]
+    public RenderFragment ModalContent { get; set; }
+
+    [Parameter]
+    public RenderFragment ModalFooter { get; set; }
+
+    public bool IsDialogVisible { get; private set; }
+    
+    public void Show()
+    {
+        IsDialogVisible = true;
+        StateHasChanged();
+    }
+
+    public void Hide()
+    {
+        IsDialogVisible = false;
+        StateHasChanged();
+    }
+}

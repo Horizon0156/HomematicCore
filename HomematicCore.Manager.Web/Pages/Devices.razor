@@ -1,6 +1,7 @@
 @page "/devices"
 
 @using HomematicCore.Manager.Web.ViewModels;
+@using HomematicCore.Manager.Web.Components;
 
 @inject DevicesViewModel _dataContext
 
@@ -42,7 +43,7 @@
 
 <a class="btn btn-floating btn-large page-floating"><i class="material-icons">add</i></a>
 
-@code {
-
+@code 
+{
     protected override Task OnInitializedAsync() => _dataContext.InitializeAsync();
 }

@@ -1,6 +1,7 @@
 
 /* Material Color palette (Dark theme) */
-.dark-gray {
+.dark-gray,
+.modal {
     background-color: #121212;
 }
 
@@ -25,10 +26,10 @@ tr {
     padding: 0 .75rem;
 }
 
-nav {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
+nav,
+.modal .modal-content,
+.modal .modal-footer,
+table.highlight>tbody>tr:hover
 nav ul a:hover {
     background-color: rgba(255, 255, 255, 0.05);
 }
@@ -40,6 +41,12 @@ table.highlight>tbody>tr:hover {
 .card .card-action {
 
     border-top: none;
+}
+
+.modal.blazor {
+    display: unset;
+    top: 10%;
+    z-index: 1000;
 }
 
 .btn {
@@ -79,8 +86,8 @@ table.highlight>tbody>tr:hover {
 
 .btn.page-floating {
 
-    position: absolute;
-    z-index: 1000;
+    position: fixed;
+    z-index: 1001;
     right: 10px;
     bottom: 10px;;
 }
@@ -91,12 +98,19 @@ table.highlight>tbody>tr:hover {
     margin-top: 15px;
 }
 
-.page-header .breadcrumb,
+.lead,
+.breadcrumb,
 .breadcrumb:before {
 
     font-size: 1.5rem;
 }
 
-/* .waves-primary {
-    background-color: #6200EE;
-} */
+.modal-backdrop {
+    background-color: black;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0.5;
+}

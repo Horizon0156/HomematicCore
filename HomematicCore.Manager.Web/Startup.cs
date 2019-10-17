@@ -39,6 +39,7 @@ namespace HomematicCore.Manager.Web
             // Register view models (Todo: Find a way to automatize this)
             services.AddTransient<DevicesViewModel>();
             services.AddTransient<ChannelsViewModel>();
+            services.AddTransient<ParameterDialogViewModel>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

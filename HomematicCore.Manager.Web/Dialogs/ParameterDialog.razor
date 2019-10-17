@@ -1,0 +1,59 @@
+@using HomematicCore.Manager.Web.Components;
+@using HomematicCore.Manager.Web.ViewModels;
+
+@implements IDisposable
+
+<ModalDialog @ref="_dialogReference">
+
+    <ModalContent>
+        <div class="lead">@ViewModel.Address @ViewModel.ParameterSetKey</div>
+        <div clas="container">
+            @foreach (var parameterSet in ViewModel.ParameterSetDescription?.Keys)
+            {
+                <div class="row">
+                    <div class="col s12 input-field">
+                        <input id="@parameterSet" type="text">
+                        <label for="@parameterSet">@parameterSet</label>
+                        <span class="helper-text">Default value: 0</span>
+                    </div>
+                    
+                </div>
+            }
+        </div>
+    </ModalContent>
+
+    <ModalFooter>
+        <a class="btn-flat" @onclick="_ => ViewModel.Close()"> Close </a>
+    </ModalFooter>
+
+</ModalDialog>
+
+@code
+{
+    [Parameter]
+    public ParameterDialogViewModel ViewModel { get; set; }
+
+    private ModalDialog _dialogReference;
+
+    public void Dispose()
+    {
+        ViewModel.OpenRequested -= OpenModalDialog;
+        ViewModel.CloseRequested -= CloseModalDialog;
+    }
+
+    protected override void OnInitialized() 
+    {
+        ViewModel.OpenRequested += OpenModalDialog;
+        ViewModel.CloseRequested += CloseModalDialog;
+    }
+
+    private void OpenModalDialog(object sender, EventArgs e) 
+    {
+        _dialogReference.Show();
+    }
+
+    private void CloseModalDialog(object sender, EventArgs e) 
+    {
+        _dialogReference.Hide();
+    }
+}
