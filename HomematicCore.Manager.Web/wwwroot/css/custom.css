@@ -86,15 +86,19 @@ table.highlight tbody>tr:hover {
     padding-top: 2.0rem;
 }
 
+.modal-footer > .container {
+    padding-bottom: 2.0rem;
+}
+
 #components-reconnect-modal {
     opacity: 0.9;
     color: black;
 }
 
-label {
+label,
+.label-inline {
 
     font-weight: inherit;
-    display: inline-block;
 }
 
 input {
@@ -166,6 +170,10 @@ input.small {
 
 .code {
     font-family: monospace;
+}
+
+.primary-text {
+    color: #9b4dca;
 }
 
 .green-text {

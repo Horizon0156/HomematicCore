@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 using HomematicCore.Homematic.Daemon.Domain;
 using Horizon.XmlRpc.Core;
@@ -6,7 +7,8 @@ namespace HomematicCore.Homematic.Daemon.Profiles
 {
     public class XmlRpcStructConverter : 
         ITypeConverter<XmlRpcStruct, ParameterSetDescription>,
-        ITypeConverter<XmlRpcStruct, ParameterSet>
+        ITypeConverter<XmlRpcStruct, ParameterSet>,
+        ITypeConverter<ParameterSet, XmlRpcStruct>
     {
         public ParameterSetDescription Convert(XmlRpcStruct source, ParameterSetDescription destination, ResolutionContext context)
         {
@@ -32,11 +34,23 @@ namespace HomematicCore.Homematic.Daemon.Profiles
             return parameterSet;
         }
 
+        public XmlRpcStruct Convert(ParameterSet source, XmlRpcStruct destination, ResolutionContext context)
+        {
+            var parameterSet =  new XmlRpcStruct();
+            
+            foreach (var parameter in source) {
+
+                parameterSet.Add(parameter.Key, parameter.Value);
+            }
+
+            return parameterSet;
+        }
+
         private ParameterDescription ConvertParameterDescription(XmlRpcStruct source)
         {
             return new ParameterDescription
             {
-                ParameterType = source["TYPE"]?.ToString(),
+                ParameterType = (ParameterTypes) Enum.Parse(typeof(ParameterTypes), source["TYPE"].ToString(), ignoreCase: true),
                 Operations = (int) source["OPERATIONS"],
                 Flags = (int) source["FLAGS"],
                 DefaultValue = source["DEFAULT"],

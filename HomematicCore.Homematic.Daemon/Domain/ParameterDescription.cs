@@ -3,7 +3,7 @@ namespace HomematicCore.Homematic.Daemon.Domain
 {
     public class ParameterDescription
     {
-        public string ParameterType { get; set; }
+        public ParameterTypes ParameterType { get; set; }
         public int Operations { get; set; }
         public int Flags { get; set; }
         public object DefaultValue { get; set; }

@@ -11,11 +11,31 @@
             <h4>@ViewModel.Address @ViewModel.ParameterSetKey</h4>
             <form>
             <fieldset>
-                @foreach (var parameterSet in ViewModel.ParameterSetDescription?.Keys)
+                @foreach (var parameter in ViewModel.Parameters)
                 {
-                    <label for="@parameterSet">@parameterSet</label>
-                    <small class="float-right"> Default: @ViewModel.ParameterSetDescription[parameterSet].DefaultValue</small>
-                    <input class="small" type="text" placeholder="" id="@parameterSet" value="@ViewModel.ParameterSet.GetValue(parameterSet)?.ToString()"/>
+                    <label class="label-inline" for="@parameter.Name">@parameter.Name</label>
+                    <span class="selectable primary-text" @onclick="_ => ViewModel.UploadParameter(parameter)">&nbsp;<i class="fas fa-arrow-circle-up"></i></span>
+                    <small class="float-right"> Default: @parameter.DefaultValue </small>
+                    
+                    @if (parameter is ParameterViewModel<int?> intParameter)
+                    {
+                        <input class="small" type="number" placeholder="" id="@parameter.Name" @bind="@intParameter.Value" />
+                    }
+                    @if (parameter is ParameterViewModel<double?> floatParameter)
+                    {
+                        <input class="small" type="number" placeholder="" id="@parameter.Name" @bind="@floatParameter.Value" />
+                    }
+                    @if (parameter is ParameterViewModel<bool?> boolParameter)
+                    {
+                        <div class="clearfix">
+                            <input type="checkbox" placeholder="" id="@parameter.Name" @bind="@boolParameter.Value" />
+                            <label class="label-inline" for="@parameter.Name">Enabled</label>
+                        </div>
+                    }
+                    @if (parameter is ParameterViewModel<string> stringParameter)
+                    {
+                        <input class="small" type="text" placeholder="" id="@parameter.Name" @bind="@stringParameter.Value" />
+                    }
                 }
             </fieldset>
             </form>
@@ -23,7 +43,10 @@
     </ModalContent>
 
     <ModalFooter>
-        <a class="btn-flat" @onclick="_ => ViewModel.Close()"> Close </a>
+        <div class="container">
+            <a class="button button-clear float-right" @onclick="_ => ViewModel.UploadParameterSet()"> Upload Set </a>
+            <a class="button button-clear float-right" @onclick="_ => ViewModel.Close()"> Close </a>
+        </div>
     </ModalFooter>
 
 </ModalDialog>

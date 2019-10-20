@@ -31,6 +31,9 @@ namespace HomematicCore.Homematic.Daemon.Profiles
 
             CreateMap<XmlRpcStruct, ParameterSet>()
                 .ConvertUsing<XmlRpcStructConverter>();
+
+            CreateMap<ParameterSet, XmlRpcStruct>()
+                .ConvertUsing<XmlRpcStructConverter>();
         }
     }
 }

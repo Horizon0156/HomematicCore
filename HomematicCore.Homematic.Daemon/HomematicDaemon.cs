@@ -5,6 +5,7 @@ using AutoMapper;
 using HomematicCore.Homematic.Client;
 using HomematicCore.Homematic.Client.Factories;
 using HomematicCore.Homematic.Daemon.Domain;
+using Horizon.XmlRpc.Core;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace HomematicCore.Homematic.Daemon
@@ -107,6 +108,20 @@ namespace HomematicCore.Homematic.Daemon
                 }
             }
             return convertedDevices.Values;
+        }
+
+        /// <inheritdoc />
+        public void SetValue(string address, string valueKey, object value)
+        {
+            _homematicClient.SetValue(address, valueKey, value);
+        }
+
+        /// <inheritdoc />
+        public void PutParamset(string address, string parameterSetName, ParameterSet parameterSet)
+        {
+            var convertedSet = _mapper.Map<XmlRpcStruct>(parameterSet);
+
+            _homematicClient.PutParamset(address, parameterSetName, convertedSet);
         }
     }
 }

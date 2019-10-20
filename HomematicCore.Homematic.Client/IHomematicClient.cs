@@ -13,5 +13,11 @@ namespace HomematicCore.Homematic.Client
 
         [XmlRpcMethod("getParamset")]
         XmlRpcStruct GetParamset(string address, string parameterSetName);
+
+        [XmlRpcMethod("setValue")]
+        void SetValue(string address, string valueKey, object value);
+
+        [XmlRpcMethod("putParamset")]
+        void PutParamset(string address, string parameterSetName, XmlRpcStruct parameterSet);
     }
 }

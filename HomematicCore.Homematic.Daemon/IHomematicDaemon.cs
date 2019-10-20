@@ -33,5 +33,9 @@ namespace HomematicCore.Homematic.Daemon
         ParameterSetDescription GetParameterSetDescription(string address, string parameterSetName);
 
         ParameterSet GetParameterSet(string address, string parameterSetName);
+
+        void SetValue(string address, string valueKey, object value);
+
+        void PutParamset(string address, string parameterSetName, ParameterSet parameterSet);
     }
 }
