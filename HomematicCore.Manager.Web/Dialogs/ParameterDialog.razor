@@ -6,19 +6,19 @@
 <ModalDialog @ref="_dialogReference">
 
     <ModalContent>
-        <div class="lead">@ViewModel.Address @ViewModel.ParameterSetKey</div>
-        <div clas="container">
-            @foreach (var parameterSet in ViewModel.ParameterSetDescription?.Keys)
-            {
-                <div class="row">
-                    <div class="col s12 input-field">
-                        <input id="@parameterSet" type="text">
-                        <label for="@parameterSet">@parameterSet</label>
-                        <span class="helper-text">Default value: 0</span>
-                    </div>
-                    
-                </div>
-            }
+        
+        <div class="container">
+            <h4>@ViewModel.Address @ViewModel.ParameterSetKey</h4>
+            <form>
+            <fieldset>
+                @foreach (var parameterSet in ViewModel.ParameterSetDescription?.Keys)
+                {
+                    <label for="@parameterSet">@parameterSet</label>
+                    <small class="float-right"> Default: @ViewModel.ParameterSetDescription[parameterSet].DefaultValue</small>
+                    <input class="small" type="text" placeholder="" id="@parameterSet" value="@ViewModel.ParameterSet.GetValue(parameterSet)?.ToString()"/>
+                }
+            </fieldset>
+            </form>
         </div>
     </ModalContent>
 
