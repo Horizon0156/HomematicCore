@@ -1,27 +1,15 @@
-﻿<nav>
-    <div class="nav-wrapper">
-        
-        <a href="#" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-        <a href="#" class="brand-logo">
-            <img class="responsive-img" src="logo_white.png">
-        </a>
-        <ul class="right hide-on-med-and-down">
-            <li><NavLink class="nav-link" href="/devices"> Devices </NavLink></li>
-            <li><a href="/">Links</a></li>
-            <li><a href="/">Radio</a></li>
-            <li><a href="/">Servicemessages</a></li>
+﻿<nav class="navigation-bar dp-1">
+    <div class="container">
+        <NavLink href="">
+            <img class="brand-logo" src="logo_white.png">
+        </NavLink>
+
+        <ul class="navigation-items">
+            <li><NavLink href="/devices"> Devices </NavLink></li>
+            <li><NavLink href="/links">Links</NavLink></li>
+            <li><NavLink href="/radio">Radio</NavLink></li>
+            <li><NavLink href="/servicemessages">Servicemessages</NavLink></li>
         </ul>
     </div>
 </nav>
 
-<ul class="sidenav" >
-    <li><NavLink class="nav-link" href="/devices"> Devices </NavLink></li>
-    <li><a href="/">Links</a></li>
-    <li><a href="/">Radio</a></li>
-    <li><a href="/">Servicemessages</a></li>
-</ul>
-
-@code 
-{
-    // Todo: Port Materialze's sidenav logic
-}

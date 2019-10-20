@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using HomematicCore.Homematic.Daemon;
 using HomematicCore.Homematic.Daemon.Domain;
-using Microsoft.AspNetCore.Components;
 
 namespace HomematicCore.Manager.Web.ViewModels
 {
@@ -10,12 +9,12 @@ namespace HomematicCore.Manager.Web.ViewModels
     {
         private readonly IHomematicDaemon _homematicDaemon;
 
-        private readonly NavigationManager _navigationManager;
+        public ParameterDialogViewModel ParameterDialogViewModel { get; private set; }
 
-        public DevicesViewModel(IHomematicDaemon homematicDaemon, NavigationManager navigationManager)
+        public DevicesViewModel(IHomematicDaemon homematicDaemon, ParameterDialogViewModel parameterDialogViewModel)
         {
-            _navigationManager = navigationManager;
             _homematicDaemon = homematicDaemon;
+            ParameterDialogViewModel = parameterDialogViewModel;
         }
 
         public IEnumerable<Device> LoadedDevices { get; set; }
@@ -27,9 +26,9 @@ namespace HomematicCore.Manager.Web.ViewModels
             return Task.CompletedTask;
         }
 
-        public void OpenChannels(Device device)
+        public void ShowParameterSet(Device device, string parameterSetName)
         {
-            this._navigationManager.NavigateTo($"devices/{device.Address}/channels");
+            ParameterDialogViewModel.OpenParameterDialog(device.Address, parameterSetName);
         }
     }
 }

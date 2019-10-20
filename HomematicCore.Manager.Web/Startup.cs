@@ -10,6 +10,7 @@ using AutoMapper;
 using HomematicCore.Homematic.Daemon.Profiles;
 using System;
 using HomematicCore.Manager.Web.ViewModels;
+using System.Linq;
 
 namespace HomematicCore.Manager.Web
 {
@@ -36,10 +37,14 @@ namespace HomematicCore.Manager.Web
 
             services.AddAutoMapper(typeof(EntityDomainProfile));
 
-            // Register view models (Todo: Find a way to automatize this)
-            services.AddTransient<DevicesViewModel>();
-            services.AddTransient<ChannelsViewModel>();
-            services.AddTransient<ParameterDialogViewModel>();
+            // Register view models 
+            var assembly = GetType().Assembly;
+            var viewModels = assembly.GetTypes().Where(t => t.Namespace.Contains("ViewModels") && !t.IsAbstract);
+            
+            foreach (var vm in viewModels)
+            {
+                services.AddTransient(vm);
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

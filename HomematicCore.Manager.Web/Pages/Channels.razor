@@ -5,43 +5,46 @@
 
 @inject ChannelsViewModel _dataContext
 
-<div class="page-header">
-    <NavLink href="/devices" class="breadcrumb"> Devices </NavLink>
-    <span class="breadcrumb"> @DeviceAddress </span>
-</div>
+<div class="container">
 
-<div class="card-panel dp-1">
-    <table class="small responsive-table">
-        <thead>
-            <tr>
-                <th>Address</th>
-                <th>Type</th>
-                <th>Direction</th>
-                <th>Parametersets</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var channel in _dataContext.AvailableChannels)
-            {
+    <h4>
+        <NavLink href="/devices" class="breadcrumb"> Devices </NavLink> <i class="fas fa-chevron-right h-spacer"></i>
+        <span class="breadcrumb"> @DeviceAddress </span>
+    </h4>
+
+    <div class="card dp-1">
+        <table class="small highlight">
+            <thead>
                 <tr>
-                    <td>@channel.Address</td>
-                    <td>@channel.Type</td>
-                    <td>@channel.Direction</td>
-                    <td>
-                        @foreach (var set in channel.CommonParameterSetNames)
-                        {
-                            <span class="badge solid selectable" @onclick="_ => _dataContext.ShowParameterSet(channel, set)">@set</span>
-                        }
-                    </td>
+                    <th>Address</th>
+                    <th>Type</th>
+                    <th>Direction</th>
+                    <th>Parametersets</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var channel in _dataContext.AvailableChannels)
+                {
+                    <tr>
+                        <td>@channel.Address</td>
+                        <td>@channel.Type</td>
+                        <td>@channel.Direction</td>
+                        <td>
+                            @foreach (var set in channel.CommonParameterSetNames)
+                            {
+                                <button class="button button-clear button-small" @onclick="_ => _dataContext.ShowParameterSet(channel, set)">@set</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <ParameterDialog ViewModel="_dataContext.ParameterDialogViewModel" />
 
-@code 
+@code
 {
     [Parameter]
     public string DeviceAddress { get; set; }
