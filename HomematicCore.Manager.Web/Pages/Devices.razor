@@ -44,8 +44,9 @@
 </div>
 
 <ParameterDialog ViewModel="_dataContext.ParameterDialogViewModel" />
+<InstallationModeDialog ViewModel="_dataContext.InstallationModeDialogViewModel" />
 
-<a class="button button-floating"><i class="fas fa-lg fa-plus"></i></a>
+<a class="button button-floating" @onclick="_ => _dataContext.EnableInstallationMode()"><i class="fas fa-lg fa-plus"></i></a>
 
 @code 
 {

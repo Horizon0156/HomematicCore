@@ -185,6 +185,27 @@ input.small {
     margin-right: 0.5rem;
 }
 
+.pos-relative {
+
+    position: relative;
+}
+
+.centered-overlay {
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
 /* Larger than mobile screen */
 @media (min-width: 40.0rem) { 
     

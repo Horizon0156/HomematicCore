@@ -1,0 +1,39 @@
+@using System;
+
+<div>
+    @RemainingTimeDisplayText
+</div>
+
+@code 
+{
+    [Parameter]
+    public DateTime TargetTime { get; set; }
+
+    [Parameter]
+    public string Format { get; set; }
+
+    public string RemainingTimeDisplayText { get; private set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await UpdateDisplayTextAsync();
+    }
+
+    private async Task UpdateDisplayTextAsync()
+    {
+        var now = DateTime.Now;
+
+        while (TargetTime > now)
+        {
+            var remainingTime = DateTime.Now - TargetTime;
+            RemainingTimeDisplayText = remainingTime.ToString(Format ?? "%s");
+            StateHasChanged();
+
+            await Task.Delay(1000);
+            now = DateTime.Now;
+        }
+
+        RemainingTimeDisplayText = new TimeSpan(0, 0, 0).ToString(Format ?? "%s");
+        StateHasChanged();
+    }
+}

@@ -1,3 +1,6 @@
+@using HomematicCore.Manager.Web.ViewModels;
+
+@implements IDisposable;
 
 @if (IsDialogVisible == true)
 {
@@ -20,6 +23,9 @@
     [Parameter]
     public RenderFragment ModalFooter { get; set; }
 
+    [Parameter]
+    public DialogViewModelBase ViewModel { get; set; }
+
     public bool IsDialogVisible { get; private set; }
     
     public void Show()
@@ -32,5 +38,40 @@
     {
         IsDialogVisible = false;
         StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        if (ViewModel != null)
+        {
+            ViewModel.OpenRequested -= OpenModalDialog;
+            ViewModel.CloseRequested -= CloseModalDialog;
+            ViewModel.PropertyChanged -= HandlePropertyChange;
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (ViewModel != null) 
+        {
+            ViewModel.OpenRequested += OpenModalDialog;
+            ViewModel.CloseRequested += CloseModalDialog;
+            ViewModel.PropertyChanged += HandlePropertyChange;
+        }
+    }
+
+    private async void HandlePropertyChange(object sender, EventArgs e)
+    {
+        await InvokeAsync(() => StateHasChanged());
+    }
+
+    private void OpenModalDialog(object sender, EventArgs e) 
+    {
+        Show();
+    }
+
+    private void CloseModalDialog(object sender, EventArgs e) 
+    {
+        Hide();
     }
 }

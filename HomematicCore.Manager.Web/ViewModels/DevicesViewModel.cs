@@ -11,10 +11,16 @@ namespace HomematicCore.Manager.Web.ViewModels
 
         public ParameterDialogViewModel ParameterDialogViewModel { get; private set; }
 
-        public DevicesViewModel(IHomematicDaemon homematicDaemon, ParameterDialogViewModel parameterDialogViewModel)
+        public InstallationModeDialogViewModel InstallationModeDialogViewModel { get; private set; }
+
+        public DevicesViewModel(
+            IHomematicDaemon homematicDaemon, 
+            ParameterDialogViewModel parameterDialogViewModel, 
+            InstallationModeDialogViewModel installationModeDialogViewModel)
         {
             _homematicDaemon = homematicDaemon;
             ParameterDialogViewModel = parameterDialogViewModel;
+            InstallationModeDialogViewModel = installationModeDialogViewModel;
         }
 
         public IEnumerable<Device> LoadedDevices { get; set; }
@@ -29,6 +35,11 @@ namespace HomematicCore.Manager.Web.ViewModels
         public void ShowParameterSet(Device device, string parameterSetName)
         {
             ParameterDialogViewModel.OpenParameterDialog(device.Address, parameterSetName);
+        }
+
+        public void EnableInstallationMode() 
+        {
+            InstallationModeDialogViewModel.Show();
         }
     }
 }

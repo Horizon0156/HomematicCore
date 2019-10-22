@@ -1,0 +1,57 @@
+@using HomematicCore.Manager.Web.Components;
+@using HomematicCore.Manager.Web.ViewModels;
+
+<ModalDialog ViewModel="ViewModel">
+
+    <ModalContent>
+        
+        <div class="container">
+            <h4>Add new devices</h4>
+            
+            <div class="pos-relative">
+                <form class="@(ViewModel.IsInstallationModeActive ? "hidden" : null)">
+                    <fieldset>
+                        <input type="checkbox" id="mode" @bind="ViewModel.IsAutoDiscoveryEnable" />
+                        <label class="label-inline" for="mode">Auto Discovery</label>
+                        <label for="duration">Duration (in sec.)</label>
+                        <input type="number" placeholder="" id="duration" @bind="ViewModel.Duration" />
+                        @if (!ViewModel.IsAutoDiscoveryEnable)
+                        {
+                            <label for="sgtin">SGTIN</label>
+                            <input type="text"  placeholder="" id="sgtin" @bind="ViewModel.DeviceKey.Stgin" />
+                            <label for="key">Key</label>
+                            <input type="text" placeholder="" id="key" @bind="ViewModel.DeviceKey.Key" />
+                        }
+                    </fieldset>
+                </form>
+                @if (ViewModel.IsInstallationModeActive)
+                {
+                    <div class="centered-overlay">
+                        <div class="text-center">
+                            <h4 class="primary-text">
+                                <Countdown TargetTime="ViewModel.InstallationModeExpirationTime"/>
+                            </h4>
+                            Discovery active
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </ModalContent>
+
+    <ModalFooter>
+        <div class="container">
+            <a class="button button-clear float-right" disabled="@ViewModel.IsInstallationModeActive" @onclick="async _ => await ViewModel.StartDiscoveryAsync()"> Activate </a>
+            <a class="button button-clear float-right" @onclick="_ => ViewModel.Close()"> Close </a>
+        </div>
+    </ModalFooter>
+
+</ModalDialog>
+
+@code
+{
+    [Parameter]
+    public InstallationModeDialogViewModel ViewModel { get; set; }
+
+    protected override Task OnInitializedAsync() => ViewModel.InitializeAsync();
+}

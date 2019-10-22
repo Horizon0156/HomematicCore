@@ -8,8 +8,6 @@ using HomematicCore.Homematic.Daemon;
 using HomematicCore.Homematic.Daemon.Constants;
 using AutoMapper;
 using HomematicCore.Homematic.Daemon.Profiles;
-using System;
-using HomematicCore.Manager.Web.ViewModels;
 using System.Linq;
 
 namespace HomematicCore.Manager.Web
@@ -39,7 +37,8 @@ namespace HomematicCore.Manager.Web
 
             // Register view models 
             var assembly = GetType().Assembly;
-            var viewModels = assembly.GetTypes().Where(t => t.Namespace.Contains("ViewModels") && !t.IsAbstract);
+            var viewModels = assembly.GetTypes()
+                                     .Where(t => t.Namespace.Contains("ViewModels") && !t.IsAbstract);
             
             foreach (var vm in viewModels)
             {
