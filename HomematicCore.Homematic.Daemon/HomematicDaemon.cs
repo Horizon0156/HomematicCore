@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using HomematicCore.Homematic.Client;
+using HomematicCore.Homematic.Client.Entities;
 using HomematicCore.Homematic.Client.Factories;
 using HomematicCore.Homematic.Daemon.Domain;
 using Horizon.XmlRpc.Core;
@@ -80,36 +81,6 @@ namespace HomematicCore.Homematic.Daemon
             return _mapper.Map<ParameterSet>(result);
         }
 
-        private IEnumerable<Device> GetDevicesFromDaemon() 
-        {
-            var deviceDescriptions = _homematicClient.ListDevices();
-            var convertedDevices = new Dictionary<string, Device>();
-
-            foreach (var deviceDescription in deviceDescriptions) 
-            {
-                var isDevice = string.IsNullOrEmpty(deviceDescription.ParentAddress);
-                
-                if (isDevice) 
-                {
-                    convertedDevices.Add(
-                        deviceDescription.Address, 
-                        _mapper.Map<Device>(deviceDescription));
-                }
-            }
-
-            foreach (var deviceDescription in deviceDescriptions) 
-            {
-                var isChannel = !string.IsNullOrEmpty(deviceDescription.ParentAddress);
-
-                if (isChannel)
-                {
-                    var parentDevice = convertedDevices[deviceDescription.ParentAddress];
-                    parentDevice.Channels.Add(_mapper.Map<Channel>(deviceDescription));
-                }
-            }
-            return convertedDevices.Values;
-        }
-
         /// <inheritdoc />
         public void SetValue(string address, string valueKey, object value)
         {
@@ -122,6 +93,65 @@ namespace HomematicCore.Homematic.Daemon
             var convertedSet = _mapper.Map<XmlRpcStruct>(parameterSet);
 
             _homematicClient.PutParamset(address, parameterSetName, convertedSet);
+        }
+
+        /// <inheritdoc />
+        public int GetRemainingSecondsInInstallationMode()
+        {
+            return _homematicClient.GetInstallMode();
+        }
+
+        /// <inheritdoc />
+        public void DisableInstallationMode()
+        {
+            _homematicClient.SetInstallMode(false);
+        }
+
+        /// <inheritdoc />
+        public void EnableInstallationMode(int secods = 60)
+        {
+            _homematicClient.SetInstallMode(true, secods);
+        }
+
+        /// <inheritdoc />
+        public void EnableInstallationModeWithWhitelist(IEnumerable<HmIpDeviceKey> whitelist, int seconds = 60)
+        {
+            var convertedWhitelist = whitelist.Select(e => _mapper.Map<HmIpWhitelistValue>(e))
+                                              .ToArray();
+
+            _homematicClient.SetInstallModeWithWhitelist(true, seconds, convertedWhitelist);
+        }
+
+        private IEnumerable<Device> GetDevicesFromDaemon() 
+        {
+            var deviceDescriptions = _homematicClient.ListDevices();
+            var convertedDevices = new Dictionary<string, Device>();
+            var identifiedChannels = new List<DeviceDescription>();
+
+            foreach (var deviceDescription in deviceDescriptions) 
+            {
+                var isDevice = string.IsNullOrEmpty(deviceDescription.ParentAddress);
+                
+                if (isDevice) 
+                {
+                    convertedDevices.Add(
+                        deviceDescription.Address, 
+                        _mapper.Map<Device>(deviceDescription));
+                }
+                else 
+                {
+                    identifiedChannels.Add(deviceDescription);
+                }
+            }
+
+            var channelsByParentAddress = identifiedChannels.GroupBy(c => c.ParentAddress);
+
+            foreach (var channelSet in channelsByParentAddress) 
+            {
+                var parentDevice = convertedDevices[channelSet.Key];
+                parentDevice.Channels.AddRange(channelSet.Select(c => _mapper.Map<Channel>(c)));
+            }
+            return convertedDevices.Values;
         }
     }
 }

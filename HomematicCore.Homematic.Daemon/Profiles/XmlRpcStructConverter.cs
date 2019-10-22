@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using AutoMapper;
 using HomematicCore.Homematic.Daemon.Domain;
 using Horizon.XmlRpc.Core;
@@ -38,7 +39,7 @@ namespace HomematicCore.Homematic.Daemon.Profiles
         {
             var parameterSet =  new XmlRpcStruct();
             
-            foreach (var parameter in source) {
+            foreach (var parameter in source.Where(p => p.Value != null)) {
 
                 parameterSet.Add(parameter.Key, parameter.Value);
             }

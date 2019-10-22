@@ -34,6 +34,9 @@ namespace HomematicCore.Homematic.Daemon.Profiles
 
             CreateMap<ParameterSet, XmlRpcStruct>()
                 .ConvertUsing<XmlRpcStructConverter>();
+
+            CreateMap<HmIpDeviceKey, HmIpWhitelistValue>()
+                .ForMember(v => v.Address, cfg => cfg.MapFrom(k => k.Stgin));
         }
     }
 }

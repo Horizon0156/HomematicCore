@@ -29,13 +29,58 @@ namespace HomematicCore.Homematic.Daemon
         /// <returns> Devices if found, otherwise <c>null</c>. </returns>
         Device GetDevice(string address, bool forceReload = false);
 
-
+        /// <summary>
+        ///     Gets the given parameter set description for a specific device / channel.
+        /// </summary>
+        /// <param name="address"> Address of the device / channel </param>
+        /// <param name="parameterSetName"> Name of the parameter set (e.g. VALUES) </param>
+        /// <returns> Parameter set description by parameter name </returns>
         ParameterSetDescription GetParameterSetDescription(string address, string parameterSetName);
 
+        /// <summary>
+        ///     Gets the given parameter value set for a specific device / channel.
+        /// </summary>
+        /// <param name="address"> Address of the device / channel </param>
+        /// <param name="parameterSetName"> Name of the parameter set (e.g. VALUES) </param>
+        /// <returns> Parameter values by parameter name </returns>
         ParameterSet GetParameterSet(string address, string parameterSetName);
 
+        /// <summary>
+        ///     Sets a parameter in the VALUE set on a device / channel.
+        /// </summary>
+        /// <param name="address"> The address of the device / channel. </param>
+        /// <param name="valueKey"> The name of the parameter (e.g. STATE) </param>
+        /// <param name="value"> The value. </param>
         void SetValue(string address, string valueKey, object value);
 
         void PutParamset(string address, string parameterSetName, ParameterSet parameterSet);
+
+        /// <summary>
+        ///     Gets the remaining time the daemon is in installation mode.
+        /// </summary>
+        /// <returns> 
+        ///     The remaining time in seconds. 
+        ///     <c>0</c> if the installation mode is disabled. 
+        /// </returns>
+        int GetRemainingSecondsInInstallationMode();
+
+        /// <summary>
+        ///     Disables the installation mode.
+        /// </summary>
+        void DisableInstallationMode();
+
+        /// <summary>
+        ///     Enables the installation mode for a number of seconds.
+        /// </summary>
+        /// <param name="secods"> The number of seconds, defaults to 60 </param>
+        void EnableInstallationMode(int secods = 60);
+
+        // <summary>
+        ///     Enables the trusted installation mode for a number of seconds.
+        /// </summary>
+        /// <param name="whitelist"> List of trusted HmIP devices keys (see QR Code) </param>
+        /// <param name="secods"> The number of seconds, defaults to 60 </param>
+        /// <remarks> Only for HmIP daemons </remarks>
+        void EnableInstallationModeWithWhitelist(IEnumerable<HmIpDeviceKey> whitelist, int seconds = 60);
     }
 }
