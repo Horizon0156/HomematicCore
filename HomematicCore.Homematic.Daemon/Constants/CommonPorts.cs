@@ -8,9 +8,14 @@ namespace HomematicCore.Homematic.Daemon.Constants
     public static class CommonPorts
     {
         /// <summary>
-        ///     The default port for Homematic 
+        ///     The default port for Homematic Wired (BidcosWired)
         /// </summary>
-        public static int Homematic => 2000;
+        public static int HomematicWired => 2000;
+
+        /// <summary>
+        ///     The default port for legacy Homematic (BidcosRf)
+        /// </summary>
+        public static int Homematic => 2001;
 
         /// <summary>
         ///     The default port for HomematicIp

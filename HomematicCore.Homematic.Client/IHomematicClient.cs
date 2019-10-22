@@ -19,5 +19,20 @@ namespace HomematicCore.Homematic.Client
 
         [XmlRpcMethod("putParamset")]
         void PutParamset(string address, string parameterSetName, XmlRpcStruct parameterSet);
+
+        [XmlRpcMethod("getInstallMode")]
+        int GetInstallMode();
+
+        [XmlRpcMethod("setInstallMode")]
+        void SetInstallMode(bool state);
+
+        [XmlRpcMethod("setInstallMode")]
+        void SetInstallMode(bool state, int time);
+
+        [XmlRpcMethod("setInstallMode")]
+        void SetInstallMode(bool state, int time, string address);
+
+        [XmlRpcMethod("setInstallModeWithWhitelist")]
+        void SetInstallModeWithWhitelist(bool state, int time, HmIpWhitelistValue[] whitelist);
     }
 }
