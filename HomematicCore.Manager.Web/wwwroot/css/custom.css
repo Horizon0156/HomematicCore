@@ -101,7 +101,8 @@ label,
     font-weight: inherit;
 }
 
-input {
+input, 
+select {
     color: white;
 }
 
@@ -109,6 +110,21 @@ input.small {
 
     margin-bottom: 1rem;
     height: 2.5rem;
+}
+
+select {
+    /* irrelevante Eigenschaften gekürzt */
+    border: 1px solid black;
+    padding: .75em 1em .5em 1em;
+    box-shadow: 0 2px 1px 0 rgba(0,0,0,1);
+    background-color: #333;
+    color: white;
+}
+
+option {
+    background: #222;
+    border-top: 1px solid #444;
+    padding: .3em 1em .3em 1em;
 }
 
 .button.button-small {

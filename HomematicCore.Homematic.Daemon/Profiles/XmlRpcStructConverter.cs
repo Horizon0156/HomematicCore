@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using HomematicCore.Homematic.Daemon.Domain;
@@ -52,20 +53,31 @@ namespace HomematicCore.Homematic.Daemon.Profiles
             return new ParameterDescription
             {
                 ParameterType = (ParameterTypes) Enum.Parse(typeof(ParameterTypes), source["TYPE"].ToString(), ignoreCase: true),
-                Operations = (int) source["OPERATIONS"],
                 Flags = (int) source["FLAGS"],
                 DefaultValue = source["DEFAULT"],
                 MinValue = source["MIN"],
                 MaxValue = source["MAX"],
                 Unit = source["UNIT"]?.ToString(),
-                //TabOrder = (int) source["TAB_ORDER"]
-                // Control = xmlRpcStruct.ContainsKey("CONTROL")
-                //     ? xmlRpcStruct["Control"].ToString()
-                //     : null,
-                // ValueList = xmlRpcStruct.ContainsKey("VALUE_LIST")
-                //     ? (string[]) xmlRpcStruct["VALUE_LIST"]
-                //     : null
+                ValueList = source.ContainsKey("VALUE_LIST")
+                     ? ConvertValueList((object[]) source["VALUE_LIST"])
+                     : null
             };
+        }
+
+        private IEnumerable<EnumMemberDescription> ConvertValueList(object[] valueList)
+        {
+            var enumMembers = new List<EnumMemberDescription>();
+            
+            for (var i = 0; i < valueList.Length; i++)
+            {
+                var key = valueList[i].ToString();
+                if (key != string.Empty)
+                {
+                    enumMembers.Add(new EnumMemberDescription { Key = key, Value = i });
+                }
+            }
+
+            return enumMembers;
         }
     }
 }

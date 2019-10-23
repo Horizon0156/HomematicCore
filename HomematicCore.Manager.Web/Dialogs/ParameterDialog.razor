@@ -1,5 +1,6 @@
 @using HomematicCore.Manager.Web.Components;
 @using HomematicCore.Manager.Web.ViewModels;
+@using HomematicCore.Homematic.Daemon.Domain;
 
 <ModalDialog ViewModel="ViewModel">
 
@@ -8,34 +9,39 @@
         <div class="container">
             <h4>@ViewModel.Address @ViewModel.ParameterSetKey</h4>
             <form>
-            <fieldset>
-                @foreach (var parameter in ViewModel.Parameters)
-                {
-                    <label class="label-inline" for="@parameter.Name">@parameter.Name</label>
-                    <span class="selectable primary-text" @onclick="_ => ViewModel.UploadParameter(parameter)">&nbsp;<i class="fas fa-arrow-circle-up"></i></span>
-                    <small class="float-right"> Default: @parameter.DefaultValue </small>
-                    
-                    @if (parameter is ParameterViewModel<int?> intParameter)
+                <fieldset>
+                    @foreach (var parameter in ViewModel.Parameters)
                     {
-                        <input class="small" type="number" placeholder="" id="@parameter.Name" @bind="@intParameter.Value" />
+                        <label class="label-inline" for="@parameter.Name">@parameter.Name</label>
+                        <span class="selectable primary-text" @onclick="() => ViewModel.UploadParameter(parameter)">&nbsp;<i class="fas fa-arrow-circle-up"></i></span>
+                        <small class="float-right"> Default: @parameter.DefaultValue </small>
+
+                        @if (parameter.ParameterType == ParameterTypes.Integer || parameter.ParameterType == ParameterTypes.Float)
+                        {
+                            <input class="small" type="number" placeholder="" id="@parameter.Name" @bind="parameter.IntValue" />
+                        }
+                        @if (parameter.ParameterType == ParameterTypes.Enum)
+                        {
+                            <select class="small" id="@parameter.Name" @bind="parameter.IntValue">
+                                @foreach (var possibleValue in parameter.ValueList)
+                                {
+                                    <option value="@possibleValue.Value"> @possibleValue.Key </option>
+                                }
+                            </select>
+                        }
+                        @if (parameter.ParameterType == ParameterTypes.Bool || parameter.ParameterType == ParameterTypes.Action)
+                        {
+                            <div class="clearfix">
+                                <input type="checkbox" placeholder="" id="@parameter.Name" @bind="parameter.BoolValue" />
+                                <label class="label-inline" for="@parameter.Name">Enabled</label>
+                            </div>
+                        }
+                        @if (parameter.ParameterType == ParameterTypes.String)
+                        {
+                            <input class="small" type="text" placeholder="" id="@parameter.Name" @bind="parameter.StringValue" />
+                        }
                     }
-                    @if (parameter is ParameterViewModel<double?> floatParameter)
-                    {
-                        <input class="small" type="number" placeholder="" id="@parameter.Name" @bind="@floatParameter.Value" />
-                    }
-                    @if (parameter is ParameterViewModel<bool?> boolParameter)
-                    {
-                        <div class="clearfix">
-                            <input type="checkbox" placeholder="" id="@parameter.Name" @bind="@boolParameter.Value" />
-                            <label class="label-inline" for="@parameter.Name">Enabled</label>
-                        </div>
-                    }
-                    @if (parameter is ParameterViewModel<string> stringParameter)
-                    {
-                        <input class="small" type="text" placeholder="" id="@parameter.Name" @bind="@stringParameter.Value" />
-                    }
-                }
-            </fieldset>
+                </fieldset>
             </form>
         </div>
     </ModalContent>

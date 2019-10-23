@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using HomematicCore.Homematic.Daemon;
 using HomematicCore.Homematic.Daemon.Domain;
@@ -31,43 +32,37 @@ namespace HomematicCore.Manager.Web.ViewModels
 
         public void LoadParameterSet()
         {
-            var parameterSetDescriptions = _homematicDaemon.GetParameterSetDescription(Address, ParameterSetKey);
-            var parameterSets = _homematicDaemon.GetParameterSet(Address, ParameterSetKey);
+            var parameterDescriptions = _homematicDaemon.GetParameterSetDescription(Address, ParameterSetKey);
+            var parameters = _homematicDaemon.GetParameterSet(Address, ParameterSetKey);
 
             Parameters.Clear();
 
-            foreach (var key in parameterSetDescriptions.Keys) 
+            foreach (var description in parameterDescriptions) 
             {
-                var setDescription = parameterSetDescriptions[key];
-                ParameterViewModel parameter; 
-
-                switch (setDescription.ParameterType)
+                Parameters.Add(new ParameterViewModel
                 {
-                    case ParameterTypes.Integer:
-                    case ParameterTypes.Enum:
-                        parameter = new ParameterViewModel<int?>();
-                        break;
-                    case ParameterTypes.Float:
-                        parameter = new ParameterViewModel<double?>();
-                        break;
-                    case ParameterTypes.String:
-                        parameter = new ParameterViewModel<string>();
-                        break;
-                    case ParameterTypes.Bool:
-                    case ParameterTypes.Action:
-                        parameter = new ParameterViewModel<bool?>();
-                        break;
-                    default:
-                        parameter = new ParameterViewModel();
-                        break;
-                }
-
-                parameter.Name = key;
-                parameter.DefaultValue = setDescription.DefaultValue;
-                parameter.Value = parameterSets.GetValue(key);
-
-                Parameters.Add(parameter);
+                    Name = description.Key,
+                    DefaultValue = description.Value.DefaultValue,
+                    Unit = description.Value.Unit,
+                    Value = parameters.GetValue(description.Key),
+                    ValueList = description.Value.ValueList,
+                    ParameterType = description.Value.ParameterType
+            });
             }
+        }
+
+        private Dictionary<string, int?> ConvertValueList(string[] valueList)
+        {
+            var possibleValues = new Dictionary<string, int?>();
+
+            if (valueList != null)
+            {
+                for (var i = 0; i < valueList.Length; i++)
+                {
+
+                }
+            }
+            return possibleValues;
         }
 
         public void UploadParameter(ParameterViewModel parameter)
