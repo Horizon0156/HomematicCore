@@ -33,7 +33,7 @@
                         <td>
                             @foreach (var set in device.CommonParameterSetNames)
                             {
-                            <button class="button button-clear button-small" @onclick="_ => _dataContext.ShowParameterSet(device, set)" onclick-stop-propagation="true">@set</button>
+                            <button class="button button-clear button-small" @onclick="_ => _dataContext.ShowParameterSet(device, set)">@set</button>
                             }
                         </td>
                     </tr>

@@ -202,8 +202,40 @@ input.small {
     align-items: center;
 }
 
-.hidden {
+.visibility-hidden {
     visibility: hidden;
+}
+
+.opacity-0 {
+    opacity: 0 !important;
+}
+
+.fade-in {
+    opacity: 1;
+    -webkit-transition: opacity 0.5s ease-in;
+    -moz-transition: opacity 0.5s ease-in;
+    -o-transition: opacity 0.5s ease-in;
+    -ms-transition: opacity 0.5s ease-in;
+    transition: opacity 0.5s ease-in;
+}
+
+.loader {
+    border: 1rem solid rgba(255,255,255, 0.05);
+    border-top: 1rem solid #9b4dca;
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Larger than mobile screen */

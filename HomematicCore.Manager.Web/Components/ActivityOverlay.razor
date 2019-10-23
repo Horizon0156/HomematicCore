@@ -1,1 +1,24 @@
 
+<div class="pos-relative">
+    <div class="fade-in @(IsBusy ? "opacity-0" : null)">
+        @ChildContent
+    </div>
+    @if (IsBusy)
+    {
+        <div class="centered-overlay">
+            <div class="loader"></div>
+        </div>
+    }
+</div>
+
+
+@code
+{
+    private bool _isBusy = true;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public bool IsBusy { get; set; }
+}

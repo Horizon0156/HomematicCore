@@ -1,0 +1,47 @@
+@page "/service-messages"
+
+@using HomematicCore.Manager.Web.ViewModels;
+@using HomematicCore.Manager.Web.Components;
+
+
+@inject ServiceMessagesViewModel _dataContext
+
+<div class="container">
+
+    <h4> Service Messages </h4>
+
+    <ActivityOverlay IsBusy="_dataContext.IsBusy">
+        <div class="card dp-1">
+            <table class="small highlight">
+                <thead>
+                    <tr>
+                        <th>Address</th>
+                        <th>Service Message ID</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var message in _dataContext.ServiceMessages)
+                    {
+                        <tr>
+                            <td>@message.SenderAddress</td>
+                            <td>@message.ServiceMessageId</td>
+                            <td>@message.Value</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </ActivityOverlay>
+</div>
+
+@code
+{
+
+    protected override Task OnInitializedAsync() => _dataContext.InitializeAsync();
+
+    private void UpdateUI(object sender, EventArgs e)
+    {
+        StateHasChanged();
+    }
+}
