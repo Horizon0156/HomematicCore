@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using HomematicCore.Homematic.Client;
 using HomematicCore.Homematic.Client.Entities;
@@ -120,6 +121,14 @@ namespace HomematicCore.Homematic.Daemon
                                               .ToArray();
 
             _homematicClient.SetInstallModeWithWhitelist(true, seconds, convertedWhitelist);
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ServiceMessage>> GetServiceMessagesAsync()
+        {
+            var rawMessages = await Task.Run(() => _homematicClient.GetServiceMessages());
+
+            return _mapper.Map<IEnumerable<ServiceMessage>>(rawMessages);
         }
 
         private IEnumerable<Device> GetDevicesFromDaemon() 

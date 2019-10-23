@@ -1,5 +1,7 @@
 using HomematicCore.Homematic.Client.Entities;
+using Horizon.XmlRpc.Client;
 using Horizon.XmlRpc.Core;
+using System;
 
 namespace HomematicCore.Homematic.Client 
 {
@@ -34,5 +36,8 @@ namespace HomematicCore.Homematic.Client
 
         [XmlRpcMethod("setInstallModeWithWhitelist")]
         void SetInstallModeWithWhitelist(bool state, int time, HmIpWhitelistValue[] whitelist);
+
+        [XmlRpcMethod("getServiceMessages")]
+        object[][] GetServiceMessages();
     }
 }

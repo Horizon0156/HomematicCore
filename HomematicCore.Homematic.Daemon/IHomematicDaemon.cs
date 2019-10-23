@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using HomematicCore.Homematic.Daemon.Domain;
 
 namespace HomematicCore.Homematic.Daemon
@@ -82,5 +83,11 @@ namespace HomematicCore.Homematic.Daemon
         /// <param name="secods"> The number of seconds, defaults to 60 </param>
         /// <remarks> Only for HmIP daemons </remarks>
         void EnableInstallationModeWithWhitelist(IEnumerable<HmIpDeviceKey> whitelist, int seconds = 60);
+
+        /// <summary>
+        ///     Gets all pending service messages.
+        /// </summary>
+        /// <returns> List of service messages. </returns>
+        Task<IEnumerable<ServiceMessage>> GetServiceMessagesAsync();
     }
 }
