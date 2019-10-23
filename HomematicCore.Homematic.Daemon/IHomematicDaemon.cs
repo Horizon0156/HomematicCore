@@ -17,7 +17,7 @@ namespace HomematicCore.Homematic.Daemon
         ///     the daemon instead of return cached ones. 
         /// </param> 
         /// <returns> Set of registered devices. </returns>
-        IEnumerable<Device> GetDevices(bool forceReload = false);
+        Task<IEnumerable<Device>> GetDevicesAsync(bool forceReload = false);
 
         /// <summary>
         ///     Gets a specific devices registered at the daemon.
@@ -28,7 +28,7 @@ namespace HomematicCore.Homematic.Daemon
         ///     the daemon instead of return cached ones. 
         /// </param> 
         /// <returns> Devices if found, otherwise <c>null</c>. </returns>
-        Device GetDevice(string address, bool forceReload = false);
+        Task<Device> GetDeviceAsync(string address, bool forceReload = false);
 
         /// <summary>
         ///     Gets the given parameter set description for a specific device / channel.

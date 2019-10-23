@@ -1,6 +1,7 @@
 @page "/devices"
 
 @using HomematicCore.Manager.Web.ViewModels;
+@using HomematicCore.Manager.Web.Components;
 @using HomematicCore.Manager.Web.Dialogs;
 
 @inject DevicesViewModel _dataContext
@@ -9,37 +10,39 @@
     <h4> Devices </h4>
 
     <div class="card dp-1">
-        <table class="small highlight">
-            <thead>
-                <tr>
-                    <th>Address</th>
-                    <th>Type</th>
-                    <th>InstalledFirmware</th>
-                    <th># Channels</th>
-                    <th>Parametersets</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach (var device in _dataContext.LoadedDevices)
-                {
+        <ActivityOverlay IsBusy="_dataContext.IsBusy">
+            <table class="small highlight">
+                <thead>
                     <tr>
-                        <td>@device.Address</td>
-                        <td>@device.Type</td>
-                        <td>@device.InstalledFirmware</td>
-                        <td>
-                            <a href="/devices/@device.Address/channels" >@device.Channels.Count</a> 
-                        </td>
-                        <td>
-                            @foreach (var set in device.CommonParameterSetNames)
-                            {
-                            <button class="button button-clear button-small" @onclick="_ => _dataContext.ShowParameterSet(device, set)">@set</button>
-                            }
-                        </td>
+                        <th>Address</th>
+                        <th>Type</th>
+                        <th>InstalledFirmware</th>
+                        <th># Channels</th>
+                        <th>Parametersets</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+
+                    @foreach (var device in _dataContext.LoadedDevices)
+                    {
+                        <tr>
+                            <td>@device.Address</td>
+                            <td>@device.Type</td>
+                            <td>@device.InstalledFirmware</td>
+                            <td>
+                                <a href="/devices/@device.Address/channels">@device.Channels.Count</a>
+                            </td>
+                            <td>
+                                @foreach (var set in device.CommonParameterSetNames)
+                                {
+                                    <button class="button button-clear button-small" @onclick="_ => _dataContext.ShowParameterSet(device, set)">@set</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </ActivityOverlay>
     </div>
 </div>
 

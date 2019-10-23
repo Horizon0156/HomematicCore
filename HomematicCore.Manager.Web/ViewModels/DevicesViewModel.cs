@@ -11,6 +11,8 @@ namespace HomematicCore.Manager.Web.ViewModels
 
         public ParameterDialogViewModel ParameterDialogViewModel { get; private set; }
 
+        public bool IsBusy { get; private set; }
+
         public InstallationModeDialogViewModel InstallationModeDialogViewModel { get; private set; }
 
         public DevicesViewModel(
@@ -21,15 +23,17 @@ namespace HomematicCore.Manager.Web.ViewModels
             _homematicDaemon = homematicDaemon;
             ParameterDialogViewModel = parameterDialogViewModel;
             InstallationModeDialogViewModel = installationModeDialogViewModel;
+
+            LoadedDevices = new List<Device>();
         }
 
         public IEnumerable<Device> LoadedDevices { get; set; }
 
-        public Task InitializeAsync()
+        public async Task InitializeAsync()
         {
-            LoadedDevices = _homematicDaemon.GetDevices();
-
-            return Task.CompletedTask;
+            IsBusy = true;
+            LoadedDevices = await _homematicDaemon.GetDevicesAsync();
+            IsBusy = false;
         }
 
         public void ShowParameterSet(Device device, string parameterSetName)

@@ -49,17 +49,19 @@ namespace HomematicCore.Homematic.Daemon
         }
 
         /// <inheritdoc />
-        public Device GetDevice(string address, bool forceReload)
+        public async Task<Device> GetDeviceAsync(string address, bool forceReload)
         {
-            return GetDevices(forceReload).FirstOrDefault(d => d.Address == address);
+            var devices = await GetDevicesAsync(forceReload);
+
+            return devices.FirstOrDefault(d => d.Address == address);
         }
 
         /// <inheritdoc />
-        public IEnumerable<Device> GetDevices(bool forceReload)
+        public async Task<IEnumerable<Device>> GetDevicesAsync(bool forceReload)
         {
             if (forceReload || !_cache.TryGetValue<IEnumerable<Device>>(_cacheId, out var cachedDevices)) {
 
-                cachedDevices = GetDevicesFromDaemon();
+                cachedDevices = await Task.Run(() => GetDevicesFromDaemon());
                 _cache.Set(_cacheId, cachedDevices, new TimeSpan(0, 10, 0));
             }
 

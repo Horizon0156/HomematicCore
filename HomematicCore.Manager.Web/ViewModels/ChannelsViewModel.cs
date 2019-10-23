@@ -35,9 +35,10 @@ namespace HomematicCore.Manager.Web.ViewModels
             ParameterDialogViewModel.OpenParameterDialog(channel.Address, parameterSetName);
         }
 
-        private void OnParentAddressChanged()
+        // Todo: Handle properly
+        private async void OnParentAddressChanged()
         {
-            AvailableChannels = _homematicDaemon.GetDevice(ParentAddress)?.Channels;
+            AvailableChannels = (await _homematicDaemon.GetDeviceAsync(ParentAddress))?.Channels;
         }
     }
 }
