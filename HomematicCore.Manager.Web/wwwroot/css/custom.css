@@ -1,230 +1,66 @@
-﻿body {
+﻿
+/* Color definitions */
+.bg-dp-1 {
+
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.bg-surface {
 
     background-color: #121212;
-    color: white;
 }
 
-.navigation-bar {
+.bg-primary {
 
-    position: fixed;
-    left: 0;
-    top: 0;
-    right: 0;
+    background-color: #BB86FC;
 }
 
-.navigation-bar > .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 5rem;
+.bg-primary-variant {
+
+    background-color: #3700B3;
 }
 
-.navigation-bar + * {
-    margin-top: 5rem;
+.text-primary {
+    color: #BB86FC !important;
 }
 
-.navigation-items {
-
-    list-style: none;
-    margin-bottom: 0;
+.text-secondary {
+    color: #03DAC6 !important;
 }
 
-.navigation-items li {
-    
-    float: left;
-    margin-bottom: 0;
-    margin-left: 2.5rem;
-    margin-bottom: 0;
+.bg-secondary {
+    background-color: #03DAC6;
 }
 
-.brand-logo {
-    height: 3rem;
+.bg-error {
+    background-color: #CF6679 !important;
 }
 
-.modal {
-
-    z-index: 2001;
-    display: block;
-    opacity: 1;
-    top: 10%;
-    transform: scaleX(1) scaleY(1);
-    position: fixed;
-    left: 0;
-    right: 0;
-    background-color: #1e1e1e;
-    max-height: 80%;
-    width: 80%;
-    margin: auto;
-    overflow-y: auto;
-    border-radius: 2px;
+/* Custom classes */
+#brand-logo {
+    max-width: 200px;
 }
 
-.modal-backdrop {
-    position: absolute;
-    background-color: black;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 0.5;
-    z-index: 2000;
+nav {
+    height: 60px;
 }
 
-table.small td {
-
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-}
-
-table.highlight tbody>tr:hover {
-    background-color: rgba(255,255,255, 0.05);
-}
-
-.site-content > .container,
-.modal-content > .container  {
-    padding-bottom: 2.0rem;
-    padding-top: 2.0rem;
-}
-
-.modal-footer > .container {
-    padding-bottom: 2.0rem;
-}
-
-#components-reconnect-modal {
-    opacity: 0.9;
-    color: black;
-}
-
-label,
-.label-inline {
-
-    font-weight: inherit;
-}
-
-input, 
-select {
-    color: white;
-}
-
-input.small {
-
-    margin-bottom: 1rem;
-    height: 2.5rem;
-}
-
-select {
-    /* irrelevante Eigenschaften gekürzt */
-    border: 1px solid black;
-    padding: .75em 1em .5em 1em;
-    box-shadow: 0 2px 1px 0 rgba(0,0,0,1);
-    background-color: #333;
-    color: white;
-}
-
-option {
-    background: #222;
-    border-top: 1px solid #444;
-    padding: .3em 1em .3em 1em;
-}
-
-.button.button-small {
-
-    margin-bottom: 0;
-    line-height: inherit;
-    height: inherit;
-}
-
-.button.button-floating {
-
-    border-radius: 25px;
-    height: 5rem;
-    width: 5rem;
-    padding: 0;
-    line-height: 5rem;
-    text-align: center;
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    margin-bottom: 0;
-}
-
-.card {
-
-    padding: 2.0rem;
-}
-
-.badge {
-
-    background-color: #9b4dca;
-    padding: 0.2rem;
-    border-radius: 0.2rem;
-}
-
-.selectable {
-
-    cursor: pointer;
-}
-
-.responsive-image {
-    max-width: 100%;
-    height: auto;
-}
-
-.d-flex-distribute {
-    display:flex;
-}
-
-.dp-1 {
-
-    background-color: rgba(255,255,255, 0.05);
-}
-
-.text-center {
-
-    text-align: center;
+.site-content {
+    min-height: calc(100VH - 60px);
 }
 
 .code {
     font-family: monospace;
 }
 
-.primary-text {
-    color: #9b4dca;
-}
-
-.green-text {
-    color: #4cff00;
-}
-
-.h-spacer {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-}
-
-.pos-relative {
-
-    position: relative;
-}
-
-.centered-overlay {
-
+.overlay {
     position: absolute;
     top: 0;
-    bottom: 0;
     left: 0;
     right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    bottom: 0;
 }
 
-.visibility-hidden {
-    visibility: hidden;
-}
-
-.opacity-0 {
-    opacity: 0 !important;
-}
 
 .fade-in {
     opacity: 1;
@@ -235,12 +71,21 @@ option {
     transition: opacity 0.5s ease-in;
 }
 
+.fade-in.hide {
+    opacity: 0;
+}
+
+.reserve-loader-height {
+
+    min-height: 4rem;
+}
+
 .loader {
-    border: 1rem solid rgba(255,255,255, 0.05);
-    border-top: 1rem solid #9b4dca;
+    border: .5rem solid rgba(255,255,255, 0.05);
+    border-top: .5rem solid #BB86FC;
     border-radius: 50%;
-    width: 5rem;
-    height: 5rem;
+    width: 4rem;
+    height: 4rem;
     animation: spin 2s linear infinite;
 }
 
@@ -254,20 +99,96 @@ option {
     }
 }
 
-/* Larger than mobile screen */
-@media (min-width: 40.0rem) { 
-    
- }
+/* Bootstrap overides */
+.table th {
 
-/* Larger than tablet screen */
-@media (min-width: 80.0rem) { 
-    
-    .modal {
-        max-width: 55%;
-    }
- }
+    border-top: none;
+    border-bottom: none !important;
+}
 
-/* Larger than desktop screen */
-@media (min-width: 120.0rem) { 
-    
+.table-dark td, .table-dark th {
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.card {
+
+    background-color: rgba(255, 255, 255, 0.05);
+    border: none;
+}
+
+.card-header {
+
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    border:none;
+    background-color: transparent;
+}
+
+.modal.show {
+    display: block;
+}
+
+.modal-header,
+.modal-footer {
+    border: none;
+}
+
+.btn-link {
+    font-weight: 500;
+    padding-top: 0;
+    padding-bottom: 0;
+    color: #BB86FC;
+    text-decoration: none;
+}
+
+a,
+a:not([href]) {
+    color: #BB86FC;
+}
+
+.btn-link:hover,
+.btn-link:active,
+a:hover,
+a:active,
+a:not([href]) {
+    color: #9E55FC;
+    text-decoration: none;
+}
+
+.form-control,
+.form-control:focus {
+    color: white;
+    background-color: transparent;
+}
+
+.form-control:focus {
+    border-color: #BB86FC;
+    box-shadow: none;
+}
+
+option {
+    background-color: #1e1e1e;
+}
+
+.btn-primary,
+.btn-primary:active
+.btn-primary:hover
+.btn-primary:focus {
+
+    background-color: #BB86FC !important;
+    color: black !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.btn-ripple {
+    background-position: center;
+    transition: background 0.8s;
+}
+  
+.btn-ripple:active {
+    background-color: #D7B7FD !important;
+    background-size: 100%;
+    transition: background 0s;
 }

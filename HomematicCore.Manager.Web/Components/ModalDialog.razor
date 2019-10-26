@@ -4,19 +4,30 @@
 
 @if (IsDialogVisible == true)
 {
-    <div class="modal">
-        <div class="modal-content">
-            @ModalContent
-        </div>
-        <div class="modal-footer">
-            @ModalFooter
+    <div class="modal show " tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-scrollable bg-surface" role="document">
+            <div class="modal-content bg-dp-1">
+                <div class="modal-header">
+                    @ModalHeader
+                </div>
+                <div class="modal-body">
+                    @ModalContent
+                </div>
+                <div class="modal-footer">
+                    @ModalFooter
+                </div>
+            </div>
         </div>
     </div>
-    <div class="modal-backdrop"></div>
+
+    <div class="modal-backdrop show"></div>
 }
 
 @code 
 {
+    [Parameter]
+    public RenderFragment ModalHeader { get; set; }
+    
     [Parameter]
     public RenderFragment ModalContent { get; set; }
 

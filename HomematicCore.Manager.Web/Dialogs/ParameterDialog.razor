@@ -4,53 +4,55 @@
 
 <ModalDialog ViewModel="ViewModel">
 
+    <ModalHeader>
+        <div class="lead"> @ViewModel.ParameterSetKey (@ViewModel.Address) </div>
+    </ModalHeader>
     <ModalContent>
-        
-        <div class="container">
-            <h4>@ViewModel.Address @ViewModel.ParameterSetKey</h4>
-            <form>
-                <fieldset>
-                    @foreach (var parameter in ViewModel.Parameters)
-                    {
-                        <label class="label-inline" for="@parameter.Name">@parameter.Name</label>
-                        <span class="selectable primary-text" @onclick="() => ViewModel.UploadParameter(parameter)">&nbsp;<i class="fas fa-arrow-circle-up"></i></span>
-                        <small class="float-right"> Default: @parameter.DefaultValue </small>
+        <form>
+        @foreach (var parameter in ViewModel.Parameters)
+        {
+            <div class="form-group">
+                <label for="@parameter.Name"> @parameter.Name </label>
+                <button class="btn btn-link pr-0 float-right" @onclick="() => ViewModel.UploadParameter(parameter)">&nbsp;<i class="fas fa-arrow-circle-up"></i></button>
 
-                        @if (parameter.ParameterType == ParameterTypes.Integer || parameter.ParameterType == ParameterTypes.Float)
+                @if (parameter.ParameterType == ParameterTypes.Integer)
+                {
+                    <input class="form-control form-control-sm" type="number" placeholder="" id="@parameter.Name" @bind="parameter.IntValue" />
+                }
+                @if (parameter.ParameterType == ParameterTypes.Float)
+                {
+                    <input class="form-control form-control-sm" type="number" placeholder="" id="@parameter.Name" @bind="parameter.DoubleValue" />
+                }
+                @if (parameter.ParameterType == ParameterTypes.Enum)
+                {
+                    <select class="form-control form-control-sm" id="@parameter.Name" @bind="parameter.IntValue">
+                        @foreach (var possibleValue in parameter.ValueList)
                         {
-                            <input class="small" type="number" placeholder="" id="@parameter.Name" @bind="parameter.IntValue" />
+                            <option value="@possibleValue.Value"> @possibleValue.Key </option>
                         }
-                        @if (parameter.ParameterType == ParameterTypes.Enum)
-                        {
-                            <select class="small" id="@parameter.Name" @bind="parameter.IntValue">
-                                @foreach (var possibleValue in parameter.ValueList)
-                                {
-                                    <option value="@possibleValue.Value"> @possibleValue.Key </option>
-                                }
-                            </select>
-                        }
-                        @if (parameter.ParameterType == ParameterTypes.Bool || parameter.ParameterType == ParameterTypes.Action)
-                        {
-                            <div class="clearfix">
-                                <input type="checkbox" placeholder="" id="@parameter.Name" @bind="parameter.BoolValue" />
-                                <label class="label-inline" for="@parameter.Name">Enabled</label>
-                            </div>
-                        }
-                        @if (parameter.ParameterType == ParameterTypes.String)
-                        {
-                            <input class="small" type="text" placeholder="" id="@parameter.Name" @bind="parameter.StringValue" />
-                        }
-                    }
-                </fieldset>
-            </form>
-        </div>
+                    </select>
+                }
+                @if (parameter.ParameterType == ParameterTypes.Bool || parameter.ParameterType == ParameterTypes.Action)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" placeholder="" id="@parameter.Name" @bind="parameter.BoolValue" />
+                        <label class="form-check-label" for="@parameter.Name">Enabled</label>
+                    </div>
+                }
+                @if (parameter.ParameterType == ParameterTypes.String)
+                {
+                    <input class="form-control form-control-sm" type="text" placeholder="" id="@parameter.Name" @bind="parameter.StringValue" />
+                }
+                <small class="form-text text-muted">
+                    Default: @parameter.DefaultValue
+                </small>
+            </div>
+        }
+        </form>
     </ModalContent>
-
     <ModalFooter>
-        <div class="container">
-            <a class="button button-clear float-right" @onclick="_ => ViewModel.UploadParameterSet()"> Upload Set </a>
-            <a class="button button-clear float-right" @onclick="_ => ViewModel.Close()"> Close </a>
-        </div>
+        <button class="btn btn-primary btn-ripple" @onclick="_ => ViewModel.UploadParameterSet()"> Upload Set </button>
+        <button class="btn btn-primary btn-ripple" @onclick="_ => ViewModel.Close()"> Close </button>
     </ModalFooter>
 
 </ModalDialog>

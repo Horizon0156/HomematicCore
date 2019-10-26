@@ -1,11 +1,11 @@
 
-<div class="pos-relative">
-    <div class="fade-in @(IsBusy ? "opacity-0" : null)">
+<div class="position-relative reserve-loader-height">
+    <div class="fade-in @(IsBusy ? "hide" : null)">
         @ChildContent
     </div>
     @if (IsBusy)
     {
-        <div class="centered-overlay">
+        <div class="overlay d-flex align-items-center justify-content-center">
             <div class="loader"></div>
         </div>
     }

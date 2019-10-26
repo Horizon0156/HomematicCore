@@ -129,7 +129,7 @@ namespace HomematicCore.Homematic.Daemon
         public async Task<IEnumerable<ServiceMessage>> GetServiceMessagesAsync()
         {
             var rawMessages = await Task.Run(() => _homematicClient.GetServiceMessages());
-
+            
             return _mapper.Map<IEnumerable<ServiceMessage>>(rawMessages);
         }
 

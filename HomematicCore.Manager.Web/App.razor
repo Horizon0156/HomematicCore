@@ -1,23 +1,24 @@
-﻿<Router AppAssembly="@typeof(Program).Assembly">
+﻿@using HomematicCore.Manager.Web.Shared;
+
+<Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
     </Found>
     <NotFound>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <div class="container text-center code">
-
-                <h3>
-                    404
+        <LayoutView>
+            <NavMenu />
+            <div class="site-content container pt-4 pb-4 d-flex flex-column justify-content-center align-items-center code">
+                <h3 class="text-primary">
+                        404
                 </h3>
                 <p>
                     Page not found
                 </p>
-                <p>
+                <p class="text-center">
                     This may not mean anything.<br /> 
                     I'm probably working on something that hasn't been finished or there's an error in the Matrix. 
                 </p>
             </div>
-
         </LayoutView>
     </NotFound>
 </Router>

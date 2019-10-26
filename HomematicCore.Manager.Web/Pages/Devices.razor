@@ -1,3 +1,4 @@
+@page "/"
 @page "/devices"
 
 @using HomematicCore.Manager.Web.ViewModels;
@@ -7,49 +8,51 @@
 @inject DevicesViewModel _dataContext
 
 <div class="container">
-    <h4> Devices </h4>
-
-    <div class="card dp-1">
-        <ActivityOverlay IsBusy="_dataContext.IsBusy">
-            <table class="small highlight">
-                <thead>
-                    <tr>
-                        <th>Address</th>
-                        <th>Type</th>
-                        <th>InstalledFirmware</th>
-                        <th># Channels</th>
-                        <th>Parametersets</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    @foreach (var device in _dataContext.LoadedDevices)
-                    {
+    <div class="card mt-4">
+        <div class="card-body">
+            <div class="card-header d-flex justify-content-between"> 
+                <span class="lead"> Devices </span>
+                <button class="btn btn-sm btn-primary" @onclick="_ => _dataContext.EnableInstallationMode()"><i class="fas fa-plus"></i></button>
+            </div>
+            <ActivityOverlay IsBusy="_dataContext.IsBusy">
+                <table class="table table-sm table-hover table-dark bg-transparent">
+                    <thead>
                         <tr>
-                            <td>@device.Address</td>
-                            <td>@device.Type</td>
-                            <td>@device.InstalledFirmware</td>
-                            <td>
-                                <a href="/devices/@device.Address/channels">@device.Channels.Count</a>
-                            </td>
-                            <td>
-                                @foreach (var set in device.CommonParameterSetNames)
-                                {
-                                    <button class="button button-clear button-small" @onclick="_ => _dataContext.ShowParameterSet(device, set)">@set</button>
-                                }
-                            </td>
+                            <th>Address</th>
+                            <th>Type</th>
+                            <th>InstalledFirmware</th>
+                            <th># Channels</th>
+                            <th>Parametersets</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </ActivityOverlay>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var device in _dataContext.LoadedDevices)
+                        {
+                            <tr>
+                                <td>@device.Address</td>
+                                <td>@device.Type</td>
+                                <td>@device.InstalledFirmware</td>
+                                <td>
+                                    <a class="btn btn-link" href="/devices/@device.Address/channels">@device.Channels.Count</a>
+                                </td>
+                                <td>
+                                    @foreach (var set in device.CommonParameterSetNames)
+                                    {
+                                        <button class="btn btn-link" @onclick="_ => _dataContext.ShowParameterSet(device, set)">@set</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </ActivityOverlay>
+        </div>
     </div>
 </div>
 
 <ParameterDialog ViewModel="_dataContext.ParameterDialogViewModel" />
 <InstallationModeDialog ViewModel="_dataContext.InstallationModeDialogViewModel" />
-
-<a class="button button-floating" @onclick="_ => _dataContext.EnableInstallationMode()"><i class="fas fa-lg fa-plus"></i></a>
 
 @code 
 {
