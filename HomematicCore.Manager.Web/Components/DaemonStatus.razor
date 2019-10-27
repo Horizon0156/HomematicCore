@@ -1,3 +1,5 @@
+@using HomematicCore.Manager.Web.ViewModels;
+@inject DaemonStatusViewModel _dataContext
 
 <div class="container">
     <div class="card bg-dp-1">
@@ -5,11 +7,23 @@
             <div class="d-flex">
                 <div class="d-flex flex-column">
                     <span>Daemon Status:</span>
-                    <span><i class="fas fa-check-circle text-secondary"></i> Conntected </span>
+                    @if (_dataContext.IsBusy)
+                    {
+                        <span><i class="fas fa-circle-notch fa-spin text-primary"></i> Connecting </span>
+                    }
+                    @if (!_dataContext.IsBusy && _dataContext.IsConnected)
+                    {
+                        <span><i class="fas fa-circle text-secondary"></i> Conntected </span>
+                    }
+                    @if (!_dataContext.IsBusy && !_dataContext.IsConnected)
+                    {
+                        <span><i class="fas fa-circle text-error"></i> Disconnected</span>
+                    }
+                    
                 </div>
                 <div class="ml-auto text-center">
                     <div class="lead text-primary">
-                        2%
+                        @(_dataContext.DutyCycleInPercent.HasValue ? $"{_dataContext.DutyCycleInPercent}%" : "-")
                     </div>
                     <span>Duty Cyle</span>
                 </div>
@@ -17,3 +31,8 @@
         </div>
     </div>
 </div>
+
+@code 
+{
+    protected override Task OnInitializedAsync() => _dataContext.InitializeAsync();
+}

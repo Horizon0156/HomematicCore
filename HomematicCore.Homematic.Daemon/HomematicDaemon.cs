@@ -129,8 +129,16 @@ namespace HomematicCore.Homematic.Daemon
         public async Task<IEnumerable<ServiceMessage>> GetServiceMessagesAsync()
         {
             var rawMessages = await Task.Run(() => _homematicClient.GetServiceMessages());
-            
+
             return _mapper.Map<IEnumerable<ServiceMessage>>(rawMessages);
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<Domain.BidcosInterface>> GetInterfacesAsync()
+        {
+            var interfaces = await Task.Run(() => _homematicClient.ListBidcosInterfaces());
+
+            return interfaces.Select(i => _mapper.Map<Domain.BidcosInterface>(i));
         }
 
         private IEnumerable<Device> GetDevicesFromDaemon() 

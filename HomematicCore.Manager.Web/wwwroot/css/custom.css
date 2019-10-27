@@ -28,6 +28,10 @@
     color: #03DAC6 !important;
 }
 
+.text-error {
+    color: #CF6679 !important;
+}
+
 .bg-secondary {
     background-color: #03DAC6;
 }

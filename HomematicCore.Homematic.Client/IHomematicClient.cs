@@ -39,5 +39,8 @@ namespace HomematicCore.Homematic.Client
 
         [XmlRpcMethod("getServiceMessages")]
         object[][] GetServiceMessages();
+
+        [XmlRpcMethod("listBidcosInterfaces")]
+        BidcosInterface[] ListBidcosInterfaces();
     }
 }

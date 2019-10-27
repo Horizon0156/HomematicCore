@@ -26,6 +26,8 @@ namespace HomematicCore.Homematic.Daemon.Profiles
                 .ForMember(c => c.Device, cfg => cfg.Ignore())
                 .ForMember(d => d.CommonParameterSetNames, cfg => cfg.Ignore());
 
+            CreateMap<Client.Entities.BidcosInterface, Domain.BidcosInterface>();
+
             CreateMap<XmlRpcStruct, ParameterSetDescription>()
                 .ConvertUsing<XmlRpcStructConverter>();
 

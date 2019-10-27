@@ -89,5 +89,11 @@ namespace HomematicCore.Homematic.Daemon
         /// </summary>
         /// <returns> List of service messages. </returns>
         Task<IEnumerable<ServiceMessage>> GetServiceMessagesAsync();
+
+         /// <summary>
+        ///     Gets all Bidcos interfaces provided by the daemon.
+        /// </summary>
+        /// <returns> List of interfaces. </returns>
+        Task<IEnumerable<BidcosInterface>> GetInterfacesAsync();
     }
 }
