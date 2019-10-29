@@ -13,7 +13,7 @@
         {
             <div class="form-group">
                 <label for="@parameter.Name"> @parameter.Name </label>
-                <button class="btn btn-link pr-0 float-right" @onclick="() => ViewModel.UploadParameter(parameter)">&nbsp;<i class="fas fa-arrow-circle-up"></i></button>
+                <button type = "button" class="btn btn-link pr-0 float-right" @onclick="() => ViewModel.UploadParameter(parameter)">&nbsp;<i class="fas fa-arrow-circle-up"></i></button>
 
                 @if (parameter.ParameterType == ParameterTypes.Integer)
                 {
